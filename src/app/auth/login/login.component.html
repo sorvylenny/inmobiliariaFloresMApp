@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="imagen">
+    <img src="assets/Inmobiliaria FloresM.gif" alt="">
+  </div>
+  <mat-card class="cardLogin">
+      <div class="header">
+          <span>Login</span>
+      </div>
+      <mat-card-content style="padding-bottom: 15px;">
+          <form [formGroup]="formLogin" (ngSubmit)="initSesion()">
+              <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Usuario</mat-label>
+                  <input matInput
+                  formControlName="username" autocomplete="off">
+                  <mat-icon matSuffix>person</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Password</mat-label>
+                <input [type]="hidePassword ? 'password' : 'text'" matInput formControlName="password" autocomplete="off">
+                <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+                  <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+              </mat-form-field>
+              <button mat-raised-button class="full-width custom-button" type="submit" [disabled]="formLogin.invalid">
+                <mat-icon matSuffix>login</mat-icon> Ingresar
+              </button>
+          </form>
+      </mat-card-content>
+      <mat-card-footer>
+          <mat-progress-bar mode="indeterminate" *ngIf="showLoading"></mat-progress-bar>
+      </mat-card-footer>
+  </mat-card>
+</div>

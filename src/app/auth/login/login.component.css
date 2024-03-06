@@ -1,0 +1,39 @@
+
+.container{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    background-color: #F6ECF0;
+}
+
+.cardLogin{
+    max-width: 500px !important;
+    margin: 2em auto;
+    text-align: center;
+    max-height: 600px;
+    background-color :#F6ECF0;
+    border-radius: 2rem;
+    border: 2px solid #CD5D7D ;
+}
+
+.header{
+    text-align: center;
+    font-family: "Playfair Display", serif;    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.full-width{
+    width: 100%;
+}
+
+.custom-button[disabled] {
+    background-color: rgb(228, 228, 228);
+    color: white;
+  }
+
+  .custom-button:not([disabled]) {
+    background-color: #949CDF;
+    color: white;
+  }

@@ -1,0 +1,93 @@
+<!-- <mat-toolbar>
+  <mat-toolbar-row>
+      <h2>Inmobiliaria FloresM</h2>
+
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <span class="menu-span"></span>
+      <label class="menu-label">{{username}}|{{rolesUser}}</label>
+      <button mat-icon-button (click)="closetSesion()">
+          <mat-icon>logout</mat-icon>
+      </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container style="background-color: #F6ECF0;">
+  <mat-sidenav #sidenav mode="push" style="width: 250px; background-color: #F6ECF0;" >
+      <mat-nav-list>
+         <div *ngIf="isLoggedIn()" class="card">
+          <div class="card-border-top"></div>
+          <div class="img"></div>
+          <span>{{ username }}</span>
+          <p class="job" >{{ rolesUser}}</p>
+          <button>Click</button>
+        </div>
+
+              <mat-list-item  *ngFor="let menu of listMenus" (click)="sidenav.toggle()">
+              <mat-icon mat-list-icon>{{menu.icon}}</mat-icon>
+              <span>{{menu.nombre}}</span>
+          </mat-list-item>
+      </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="pageInit">
+        <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+ -->
+ <mat-toolbar>
+  <mat-toolbar-row>
+    <h2 (click)="back()">Inmobiliaria FloresM</h2>
+
+    <!-- Si el usuario está logeado, mostrar el menú -->
+    <ng-container *ngIf="isLoggedIn()">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="menu-span"></span>
+      <label class="menu-label">{{ username }} | {{ rolesUser }}</label>
+      <button mat-icon-button (click)="closetSesion()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </ng-container>
+    <span class="menu-span"></span>
+    <!-- Si el usuario no está logeado, mostrar el logo de la empresa -->
+    <ng-container *ngIf="!isLoggedIn()">
+      <img src="/assets/Logo.png" alt="logo" style="width: 50px; height: 50px;" (click)="goToIn()">
+    </ng-container>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container style="background-color: #F6ECF0;">
+  <mat-sidenav #sidenav mode="push" style="width: 250px; background-color: #F6ECF0;">
+    <mat-nav-list>
+      <!-- Solo mostrar la tarjeta si el usuario está logeado -->
+      <ng-container *ngIf="isLoggedIn()">
+        <div class="card">
+          <div class="card-border-top"></div>
+          <div class="img"></div>
+          <span>{{ username }}</span>
+          <p class="job">{{ rolesUser }}</p>
+          <button>Click</button>
+        </div>
+      </ng-container>
+
+      <!-- Mostrar los elementos del menú dinámico -->
+      <mat-list-item *ngFor="let menu of listMenus" (click)="sidenav.toggle()">
+        <mat-icon mat-list-icon>{{ menu.icon }}</mat-icon>
+        <span>{{ menu.nombre }}</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="pageInit">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

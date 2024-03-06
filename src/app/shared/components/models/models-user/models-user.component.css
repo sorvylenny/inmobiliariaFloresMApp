@@ -1,0 +1,14 @@
+mat-form-field{
+  width: 100%;
+  margin: 10px 10px;
+}
+
+form{
+  width: 400px;
+}
+
+.password{
+  width: 100%; /* Ajusta el ancho según tus preferencias */
+  font-size: 14px;
+  height: 50%;
+}

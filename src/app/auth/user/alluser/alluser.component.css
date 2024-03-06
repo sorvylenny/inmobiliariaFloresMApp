@@ -1,0 +1,67 @@
+.custom-primary-button{
+  background-color: #A7C5EB !important;
+}
+.title {
+  margin: 0px 0px 0px 40px;
+}
+
+.card-user {
+  margin: 20px 40px 40px 40px;
+  background-color: #F6ECF0;
+}
+
+table {
+  width: 100%;
+  background-color: #F6ECF0;
+}
+
+.full-width {
+  width: 100%;
+  font-size: 14px;
+}
+
+th {
+  text-align: center;
+  color: #CD5D7D;
+}
+
+td {
+  text-align: center;
+  line-height: 1.5;
+  color: #CD5D7D;
+}
+
+mat-divider {
+  margin-bottom: 15px;
+}
+
+mat-paginator{
+  background-color: #F6ECF0;
+  color: #CD5D7D;
+}
+
+@media screen and (max-width: 767px) {
+  .title {
+    margin: 0 0 0 20px;
+    font-size: 20px;
+  }
+
+  .card-user {
+    margin: 15px;
+  }
+
+  table {
+    font-size: 7px;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: center;
+  }
+
+  .small-button {
+    width: 24px;
+    height: 24px;
+    align-items: center;
+  }
+}
