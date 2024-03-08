@@ -1,1 +1,41 @@
-<p>inmueble-details works!</p>
+
+  <mat-card class="card"  *ngIf="propiety">
+   <mat-card-header class="card-header">
+     <app-smallmap [longitude]="propiety.longitude" [latitude]="propiety.latitude" class="image map-container"></app-smallmap>
+   </mat-card-header>
+   <mat-card-content>
+     <mat-card-title class="name">{{propiety.title}}</mat-card-title>
+     <div class="card-body">
+       <mat-icon>person_pin_circle</mat-icon>
+       <mat-card-subtitle>{{propiety.address}}</mat-card-subtitle>
+     </div>
+     <div class="department">
+         <mat-icon>location_city</mat-icon>
+         <mat-card-title>{{propiety.department }}</mat-card-title>
+         <mat-icon>location_on</mat-icon>
+         <mat-card-title>{{propiety.city}}</mat-card-title>
+     </div>
+     <p class="description">
+       {{propiety.description}}
+     </p>
+   </mat-card-content>
+   <div class="date">
+     <mat-icon>event</mat-icon>
+     <mat-card-subtitle>{{propiety.createdAt | date:'dd/MM/yyyy'}}</mat-card-subtitle>
+     <mat-icon>event_available</mat-icon>
+     <mat-card-subtitle>{{propiety.updatedAt | date:'dd/MM/yyyy'}}</mat-card-subtitle>
+   </div>
+   <mat-card-footer class="card-footer">
+     <div class="stats">
+       <mat-icon class="stat"><img src="assets/armario.png" alt=""></mat-icon>
+       <span class="value">{{ propiety.closet !== null && propiety.closet !== undefined ? propiety.closet : 0 }}</span>
+         <mat-icon class="stat"><img src="assets/icons8-bathroom-50.png" alt=""></mat-icon>
+         <span class="value">{{propiety.bathrooms}}</span>
+       <mat-icon class="stat"><img src="assets/icons8-bedroom-30.png" alt=""></mat-icon>
+       <span class="value">{{propiety.bedrooms}}</span>
+     </div>
+   </mat-card-footer>
+   <div class="card__price" matTooltip="{{propiety.price | currency:'USD':'symbol':'1.0-0'}}">
+    {{propiety.price | currency:'USD':'symbol':'1.0-0'}}
+  </div>
+ </mat-card>

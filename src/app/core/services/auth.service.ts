@@ -1,47 +1,43 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { Login } from 'src/app/interfaces/login';
 import { User } from 'src/app/interfaces/user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private isLoggedIn: boolean = false;
-  private baseUrl:string='http://localhost:3000/users/'
+  private baseUrl:string= environment.baseUrlUser;
   private authToken!: string;
+  private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   setAuthToken(token: string) {
     this.authToken = token;
   }
 
-  constructor(private http: HttpClient) { }
-  getLoggedInUser(): Observable<User | null> {
-    // Recuperar la información del usuario del almacenamiento local
+  constructor(private http: HttpClient) {
+    this.getLoggedInUser();
+   }
+/*   getLoggedInUser(): Observable<User | null> {
+
     const username = localStorage.getItem('username');
-    const roles = localStorage.getItem('roles'); // Obtener roles como cadena simple
+    const roles = localStorage.getItem('roles');
     const token = localStorage.getItem('token');
 
-    // Verificar si se encontró la información del usuario
     if (username && roles && token) {
-      // Crear un objeto User con la información recuperada
       const user: User = {
         username: username,
-        roles: roles.split(','), // Convertir la cadena de roles en un array
+        roles: roles.split(','),
         token: token
       };
       console.log(user)
-      // Devolver el usuario como un observable
       return of(user);
     } else {
-      // Si no se encuentra la información del usuario, devolver null
+
       return of(null);
     }
-  }
-
-  getAllUser(): Observable<User[]>{
-    const url = `${this.baseUrl}getAll`
-    return this.http.get<User[]>(url)
   }
 
   initSeccion(required: Login) {
@@ -63,10 +59,48 @@ export class AuthService {
       })
     );
   }
+ */
 
+  initSeccion(required: any): Observable<boolean> {
+    const url = `${this.baseUrl}login`;
+    return this.http.post<User>(url, required).pipe(
+      map((resp: any) => {
+        this.setAuthToken(resp.token);
+        const user = { username: resp.user.username, roles: resp.user.roles }; // Asegúrate de adaptarlo a tu estructura de User
+        localStorage.setItem('token', resp.token);
+        localStorage.setItem('username', user.username);
+        localStorage.setItem('roles', JSON.stringify(user.roles)); // Asume que roles es un array
+        this.userSubject.next(user); // Actualiza el BehaviorSubject
+        return true;
+      }),
+      catchError(err => {
+        console.error('Error durante el inicio de sesión:', err);
+        return of(false);
+      })
+    );
+  }
+
+  private getLoggedInUser(): void {
+    const username = localStorage.getItem('username');
+    const roles = localStorage.getItem('roles');
+    if (username && roles) {
+      const user = { username, roles: JSON.parse(roles) };
+      this.userSubject.next(user);
+    }
+  }
+
+  get user$(): Observable<User | null> {
+    return this.userSubject.asObservable();
+  }
+
+  getAllUser(): Observable<User[]>{
+    const url = `${this.baseUrl}getAll`
+    return this.http.get<User[]>(url)
+  }
 
   newUser(userData: User): Observable<User> {
     const url = `${this.baseUrl}register`;
+    console.log(userData)
     console.log(url);
     return this.http.post<User>(url, userData);
   }
@@ -80,10 +114,19 @@ export class AuthService {
     return !!token;
   }
 
-  putUserById(id: string, user: User): Observable<User> {
-    const url = `${this.baseUrl}users/edit/${id}`;
+  updateUserById(id: any, user: User): Observable<User> {
+    console.log(id)
+    const userId = id._id
+    const url = `${this.baseUrl}edit/${userId}`;
     return this.http.put<User>(url, user);
   }
 
+  logout(): void {
+    // Limpiar localStorage o cualquier almacenamiento que uses
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('roles');
+    this.userSubject.next(null); // Notificar a los suscriptores
+  }
 
 }

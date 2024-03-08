@@ -1,33 +1,19 @@
- <!-- Site footer -->
+
  <footer class="site-footer">
   <div class="container">
     <div class="row">
-      <div class="col-sm-12 col-md-6">
+      <div class="col-sm-12 col-md-6 ">
         <h6>About</h6>
-        <p class="text-justify">Scanfcode.com <i>INMOBILIARIA FLORESM</i> ¡Bienvenido a nuestra simulación de aplicación inmobiliaria!
-
-          Nuestra aplicación ofrece una experiencia virtual para explorar una variedad de inmuebles ficticios. Tenga en cuenta que todos los datos proporcionados son puramente ficticios y se utilizan únicamente con fines de simulación.</p>
+        <p class="text-justify"><strong>INMOBILIARIA FLORESM</strong> ¡Bienvenido a nuestra simulación de aplicación inmobiliaria!
+          Nuestra aplicación ofrece una experiencia virtual para explorar una variedad de inmuebles ficticios.</p>
       </div>
-
       <div class="col-xs-6 col-md-3">
-        <h6>Skills</h6>
-        <ul class="footer-links">
-          <li>Nodejs</li>
-          <li>Expressjs</li>
-          <li>Angular</li>
-          <li>Html</li>
-          <li>Css</li>
-          <li>Material and bootstrap</li>
-        </ul>
       </div>
-
       <div class="col-xs-6 col-md-3">
         <h6>Quick Links</h6>
         <ul class="footer-links">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Contribute</a></li>
-          <li><a href="#">Privacy Policy</a></li>
+          <li><button mat-stroked-button (click)="openAppInfoModal()">About</button></li>
+          <li><button mat-stroked-button (click)="openAppPolicyModal()">Privacy Policy</button></li>
         </ul>
       </div>
     </div>
@@ -39,7 +25,6 @@
         <p class="copyright-text"> Copyright: Realizado por Katherine Flores.
         </p>
       </div>
-
       <div class="col-md-4 col-sm-6 col-xs-12">
         <ul class="social-icons">
           <li><a class="facebook" href="https://github.com/sorvylenny"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">

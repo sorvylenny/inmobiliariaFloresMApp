@@ -26,7 +26,6 @@ export class DepartmentService {
   getCitiesByDepartment(idDepartment: number) {
     const url = `${this.Url}Department/${idDepartment}/cities`;
     return this.http.get<City[]>(url).pipe(
-      tap(response => console.log('Respuesta del servidor:', response)),
       map(cities => cities.map(city => ({ id: city.idCity, name: city.name }))),
       catchError(error => {
         console.error('Error en la solicitud:', error);

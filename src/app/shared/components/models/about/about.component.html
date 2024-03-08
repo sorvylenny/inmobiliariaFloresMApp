@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-header class="mat-title">
+    <mat-card-title>{{author}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="descriptions">
+    <p>{{ aboutMe }}</p>
+    <mat-divider></mat-divider>
+  <mat-card-footer>
+    <mat-card-subtitle>
+      <div class="skills-container">
+        <div class="skills-list">
+          <ul><li *ngFor="let back of skillsBack">{{ back }}</li></ul>
+        </div>
+        <div class="skills-list">
+        <ul><li *ngFor="let front of skillsFront">{{ front }}</li></ul>
+        </div>
+      </div>
+  </mat-card-subtitle>
+  </mat-card-footer>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions>
+    <button color="warn" mat-raised-button (click)="close()"> <mat-icon>cancel</mat-icon> Cerrar</button>
+  </mat-card-actions>
+</mat-card>

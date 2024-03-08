@@ -1,7 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/interfaces/user';
+import { AlertService } from 'src/app/shared/alert.service';
 
 @Component({
   selector: 'app-models-user',
@@ -10,81 +12,92 @@ import { User } from 'src/app/interfaces/user';
 })
 export class ModelsUserComponent {
   formUser: FormGroup;
+  ListRoles: string[] = ['Admin', 'Empleado'];
   hidePassword: boolean = true;
   titleAction: string = "Agregar";
   buttonAction: string = "Guardar";
-  ListRoles: any;
 
   constructor(
     private modalsActual: MatDialogRef<ModelsUserComponent>,
-    @Inject(MAT_DIALOG_DATA) public dateUser: User,
-    private fb: FormBuilder,/*
-    private rolesService: RolesService,
-    private userService: UsersService,
-    private utilityService: UtilityService */
+    @Inject(MAT_DIALOG_DATA) public dataUser: User,
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private alertService: AlertService
   ) {
     this.formUser = this.fb.group({
+      fullname: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required],
       roles: ['', Validators.required],
-      isActive: [true, Validators.required]
+      isActive: [this.dataUser?.isActive != null ? this.dataUser.isActive : true]
     });
-    if (this.dateUser!=null){
+    if (this.dataUser!=null){
       this.titleAction="Editar";
       this.buttonAction='Modificar';
     }
   }
   ngOnInit(): void {
-    if (this.dateUser != null) {
+    if (this.dataUser != null) {
       this.formUser.patchValue({
-        username: this.dateUser.username,
-        password:this.dateUser.password,
-        roles: this.dateUser.roles,
+        fullname: this.dataUser.fullname,
+        username: this.dataUser.username,
+        password:this.dataUser.password,
+        roles: this.dataUser.roles,
+
       })
     }
   }
-  saveEditUser(){}
+
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
 
-  /* saveEditUser() {
-    const user: Users = {
-      idUsers: this.dateUser == null ? 0 : this.dateUser.idUsers,
+   saveEditUser() {
+    const user: User = {
+      fullname: this.formUser.value.fullname,
       username: this.formUser.value.username,
       password: this.formUser.value.password,
-      roles: this.formUser.value.roles,
-      rolesDescripcion: "",
-      clave: this.formUser.value.clave,
-      isActive: parseInt(this.formUser.value.isActive),
+      roles: this.formUser.value.roles.toLowerCase(),
+      /* isActive: this.formUser.value.isActive, */
+    }
+    const id : any={
+      _id: this.dataUser == null ? '0' : this.dataUser._id,
     }
 
-    if (this.dateUser == null) {
-      this.userService.SaveUsers(user).subscribe({
-        next: (res) => {
-          if (res.status) {
-            this.utilityService.Alert('success', 'Usuario creado correctamente');
+    if (this.dataUser == null) {
+      this.authService.newUser(user).subscribe({
+        next: (res :any) => {
+          if (res) {
+            this.alertService.Alert('success', 'Usuario creado correctamente');
             this.modalsActual.close("true");
+
           } else {
-            this.utilityService.Alert("No se pudo registrar el usuario", "Ha ocurrido un error!");
+            this.alertService.Alert("No se pudo registrar el usuario", "Ha ocurrido un error!");
+
           }
         },
-        error:()=>{}
+        error:(error)=>{console.log(error)}
       });
 
     } else {
-      this.userService.EditUsers(user).subscribe({
-        next:(res) =>{
-          if (res.status) {
-            this.utilityService.Alert('success', 'Usuario editado correctamente');
+      console.log(id)
+      console.log(user)
+      this.authService.updateUserById(id, user).subscribe(
+        res => {
+          if (res) {
+            this.alertService.Alert('success', 'Usuario editado correctamente');
             this.modalsActual.close("true");
           } else {
-            this.utilityService.Alert("No se pudo editar el usuario", "Ha ocurrido un error!");
+            this.alertService.Alert("No se pudo editar el usuario", "Ha ocurrido un error!");
           }
         },
-       error:() =>{}
-      });
-    }
-  } */
+        error => {
+          console.error('Error al editar el usuario:', error);
+          this.alertService.Alert("Error al editar el usuario", "Ha ocurrido un error");
+        }
+      );
 
+    }
+
+  }
 }

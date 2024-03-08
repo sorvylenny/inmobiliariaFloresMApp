@@ -7,6 +7,7 @@ import { InmuebleDetailsComponent } from './inmueble-details/inmueble-details.co
 import { MaterialModule } from '../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InmuebleComponent } from './inmueble/inmueble.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -21,7 +22,8 @@ import { InmuebleComponent } from './inmueble/inmueble.component';
     InmueblesRoutingModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule,
   ],
   exports:[
     InmuebleDetailsComponent

@@ -1,44 +1,4 @@
-<!-- <mat-toolbar>
-  <mat-toolbar-row>
-      <h2>Inmobiliaria FloresM</h2>
 
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-
-      <span class="menu-span"></span>
-      <label class="menu-label">{{username}}|{{rolesUser}}</label>
-      <button mat-icon-button (click)="closetSesion()">
-          <mat-icon>logout</mat-icon>
-      </button>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<mat-sidenav-container style="background-color: #F6ECF0;">
-  <mat-sidenav #sidenav mode="push" style="width: 250px; background-color: #F6ECF0;" >
-      <mat-nav-list>
-         <div *ngIf="isLoggedIn()" class="card">
-          <div class="card-border-top"></div>
-          <div class="img"></div>
-          <span>{{ username }}</span>
-          <p class="job" >{{ rolesUser}}</p>
-          <button>Click</button>
-        </div>
-
-              <mat-list-item  *ngFor="let menu of listMenus" (click)="sidenav.toggle()">
-              <mat-icon mat-list-icon>{{menu.icon}}</mat-icon>
-              <span>{{menu.nombre}}</span>
-          </mat-list-item>
-      </mat-nav-list>
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-    <div class="pageInit">
-        <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
- -->
  <mat-toolbar>
   <mat-toolbar-row>
     <h2 (click)="back()">Inmobiliaria FloresM</h2>
@@ -49,11 +9,15 @@
         <mat-icon>menu</mat-icon>
       </button>
       <span class="menu-span"></span>
-      <label class="menu-label">{{ username }} | {{ rolesUser }}</label>
-      <button mat-icon-button (click)="closetSesion()">
-        <mat-icon>logout</mat-icon>
-      </button>
+      <div class="right-content">
+        <label class="menu-label">{{ username }} | {{ rolesUser }}</label>
+        <button mat-icon-button (click)="closetSesion()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+
     </ng-container>
+
     <span class="menu-span"></span>
     <!-- Si el usuario no está logeado, mostrar el logo de la empresa -->
     <ng-container *ngIf="!isLoggedIn()">
@@ -78,8 +42,8 @@
       </ng-container>
 
       <!-- Mostrar los elementos del menú dinámico -->
-      <mat-list-item *ngFor="let menu of listMenus" (click)="sidenav.toggle()">
-        <mat-icon mat-list-icon>{{ menu.icon }}</mat-icon>
+      <mat-list-item *ngFor="let menu of listMenus" [routerLink]="menu.url" (click)="sidenav.toggle()">
+        <mat-icon color="primary" mat-list-icon>{{ menu.icon }}</mat-icon>
         <span>{{ menu.nombre }}</span>
       </mat-list-item>
     </mat-nav-list>

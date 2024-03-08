@@ -8,6 +8,9 @@ import { ModelsInmueblesComponent } from './components/models/models-inmuebles/m
 import { ModelsUserComponent } from './components/models/models-user/models-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { SmallmapComponent } from './components/smallmap/smallmap.component';
+import { AboutComponent } from './components/models/about/about.component';
+import { PrivacypolicyComponent } from './components/models/privacypolicy/privacypolicy.component';
 
 
 
@@ -16,7 +19,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     FooterComponent,
     ModelsInmueblesComponent,
     ModelsUserComponent,
-    NavbarComponent
+    NavbarComponent,
+    SmallmapComponent,
+    AboutComponent,
+    PrivacypolicyComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +34,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     FooterComponent,
     ModelsInmueblesComponent,
     ModelsUserComponent,
-    NavbarComponent
+    NavbarComponent,
+    SmallmapComponent
    ]
 })
 export class SharedModule { }

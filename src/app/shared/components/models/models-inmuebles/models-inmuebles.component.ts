@@ -32,6 +32,7 @@ export class ModelsInmueblesComponent {
       longitude: [0, Validators.required],
       bathrooms: [0, Validators.required],
       bedrooms: [0, Validators.required],
+      closet: [0, Validators.required],
       price: [0, Validators.required]
 
     });
@@ -52,6 +53,7 @@ export class ModelsInmueblesComponent {
         longitude: this.dateInmueble.longitude,
         bathrooms: this.dateInmueble.bathrooms,
         bedrooms: this.dateInmueble.bedrooms,
+        closet: this.dateInmueble.closet,
         price: this.dateInmueble.price
       })
     }
@@ -59,7 +61,7 @@ export class ModelsInmueblesComponent {
 
   saveEditInmueble() {
     const inmueble: Inmueble = {
-      id: this.dateInmueble ? this.dateInmueble.id : '',
+      _id: this.dateInmueble ? this.dateInmueble._id : '',
       title: this.formInmueble.value.title,
       description: this.formInmueble.value.description,
       address: this.formInmueble.value.address,
@@ -69,6 +71,7 @@ export class ModelsInmueblesComponent {
       longitude: this.formInmueble.value.longitude,
       bathrooms: this.formInmueble.value.bathrooms,
       bedrooms: this.formInmueble.value.bedrooms,
+      closet: this.formInmueble.value.closet,
       price: this.formInmueble.value.price
   }
 

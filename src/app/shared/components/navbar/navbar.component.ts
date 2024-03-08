@@ -17,25 +17,31 @@ export class NavbarComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.getLoggedInUser().subscribe((user: User | null) => {
+    this.authService.user$.subscribe((user: User | null) => {
       if (user) {
         this.username = user.username;
         this.rolesUser = user.roles;
         this.loadMenus(); // Cargar los menús basados en los roles del usuario
+      } else{
+        this.username='';
+        this.rolesUser=[];
+        this.listMenus=[];
       }
     });
 
   }
 
-  isLoggedIn(): boolean { return this.authService.isLoggedInt();
+  isLoggedIn(): boolean {
+    /*  return this.authService.isLoggedInt(); */
+    return !!this.username && !!this.rolesUser;
   }
 
 
   loadMenus(): void {
     // Menús para admin
     const adminMenus = [
+      { nombre: 'Usuarios', url: '/auth/user/allUser', icon: 'person' },
       { nombre: 'Dashboard', url: '/dashboard', icon: 'dashboard' },
-      { nombre: 'Buscar Inmueble', url: '/buscar-inmueble', icon: 'search' },
       { nombre: 'Crear Inmueble', url: '/crear-inmueble', icon: 'add' },
       { nombre: 'Editar Inmueble', url: '/editar-inmueble', icon: 'edit' },
       // Agregar más opciones según sea necesario
@@ -61,9 +67,7 @@ export class NavbarComponent {
   }
 
   closetSesion(): void {
-    localStorage.removeItem('username');
-    localStorage.removeItem('roles');
-    localStorage.removeItem('token');
+    this.authService.logout();
     this.router.navigate(['/auth/login']);
   }
   back(): void {
