@@ -13,15 +13,8 @@
       </mat-grid-tile>
       <mat-grid-tile>
         <mat-form-field appearance="outline">
-          <mat-label>Descripción del inmueble</mat-label>
-          <input matInput formControlName="description" autocomplete="off" />
-          <mat-icon matSuffix>description</mat-icon>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-form-field appearance="outline">
           <mat-label>Dirección</mat-label>
-          <input matInput formControlName="email" autocomplete="off" />
+          <input matInput formControlName="address" autocomplete="off" />
           <mat-icon matSuffix>home</mat-icon>
         </mat-form-field>
       </mat-grid-tile>
@@ -41,6 +34,13 @@
       </mat-grid-tile>
       <mat-grid-tile>
         <mat-form-field appearance="outline">
+          <mat-label>Descripción del inmueble</mat-label>
+          <input matInput formControlName="description" autocomplete="off" />
+          <mat-icon matSuffix>description</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
           <mat-label>Latitud</mat-label>
           <input matInput formControlName="latitude" autocomplete="off" />
           <mat-icon matSuffix>location-on</mat-icon>
@@ -56,22 +56,29 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Habitaciones</mat-label>
-          <input matInput formControlName="bedrooms" autocomplete="off" />
-          <mat-icon matSuffix><img src="assets/icons8-bedroom-30.png" alt=""></mat-icon>
+          <input matInput formControlName="bedrooms" autocomplete="off" type="number" min="0"/>
+          <mat-icon matSuffix><img src="assets/icons8-bedroom-30.png" alt="" class="icon-size"></mat-icon>
         </mat-form-field>
       </mat-grid-tile>
       <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Baños</mat-label>
-          <input matInput formControlName="bathrooms" autocomplete="off" />
-          <mat-icon matSuffix><img src="assets/icons8-bathroom-50.png" alt=""></mat-icon>
+          <input matInput formControlName="bathrooms" autocomplete="off" type="number" min="0"/>
+          <mat-icon matSuffix><img src="assets/icons8-bathroom-50.png" alt="" class="icon-size"></mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Closet</mat-label>
+          <input matInput formControlName="closet" autocomplete="off" type="number" min="0"/>
+          <mat-icon matSuffix><img src="assets/armario.png" alt="" class="icon-size"></mat-icon>
         </mat-form-field>
       </mat-grid-tile>
      <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Precio</mat-label>
-          <input matInput formControlName="price" autocomplete="off" />
-          <mat-icon matSuffix>monetization-on</mat-icon>
+          <input matInput formControlName="price" autocomplete="off" type="number" min="1"/>
+          <mat-icon matSuffix>attach_money</mat-icon>
         </mat-form-field>
       </mat-grid-tile>
 

@@ -60,7 +60,7 @@ export class ModelsUserComponent {
       roles: this.formUser.value.roles.toLowerCase(),
       /* isActive: this.formUser.value.isActive, */
     }
-    const id : any={
+    const id : string | any={
       _id: this.dataUser == null ? '0' : this.dataUser._id,
     }
 

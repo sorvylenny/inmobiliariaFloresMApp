@@ -6,3 +6,8 @@ mat-form-field{
 form{
   width: 400px;
 }
+
+.icon-size{
+  width: 20px;
+  height: 20px;
+}

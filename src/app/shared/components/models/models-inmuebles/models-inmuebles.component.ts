@@ -1,7 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { InmueblesService } from 'src/app/core/services/inmuebles.service';
 import { Inmueble } from 'src/app/interfaces/inmueble';
+import { AlertService } from 'src/app/shared/alert.service';
 
 @Component({
   selector: 'app-models-inmuebles',
@@ -17,17 +19,16 @@ export class ModelsInmueblesComponent {
   constructor(
     private modalsActual: MatDialogRef<ModelsInmueblesComponent>,
     @Inject(MAT_DIALOG_DATA) public dateInmueble: Inmueble,
-    private fb: FormBuilder,/*
-    private rolesService: RolesService,
-    private userService: UsersService,
-    private utilityService: UtilityService */
+    private fb: FormBuilder,
+    private inmuebleService: InmueblesService,
+    private alertService: AlertService
   ) {
     this.formInmueble = this.fb.group({
       title: ['', Validators.required],
-      description: ['', Validators.required],
       address: ['', Validators.required],
       department: ['', Validators.required],
       city: ['', Validators.required],
+      description: ['', Validators.required],
       latitude: [0, Validators.required],
       longitude: [0, Validators.required],
       bathrooms: [0, Validators.required],
@@ -45,10 +46,10 @@ export class ModelsInmueblesComponent {
     if (this.dateInmueble != null) {
       this.formInmueble.patchValue({
         title: this.dateInmueble.title,
-        description:this.dateInmueble.description,
         address: this.dateInmueble.address,
         department:this.dateInmueble.department,
         city: this.dateInmueble.city,
+        description:this.dateInmueble.description,
         latitude: this.dateInmueble.latitude,
         longitude: this.dateInmueble.longitude,
         bathrooms: this.dateInmueble.bathrooms,
@@ -61,12 +62,11 @@ export class ModelsInmueblesComponent {
 
   saveEditInmueble() {
     const inmueble: Inmueble = {
-      _id: this.dateInmueble ? this.dateInmueble._id : '',
       title: this.formInmueble.value.title,
-      description: this.formInmueble.value.description,
       address: this.formInmueble.value.address,
       department: this.formInmueble.value.department,
       city: this.formInmueble.value.city,
+      description: this.formInmueble.value.description,
       latitude: this.formInmueble.value.latitude,
       longitude: this.formInmueble.value.longitude,
       bathrooms: this.formInmueble.value.bathrooms,
@@ -75,32 +75,44 @@ export class ModelsInmueblesComponent {
       price: this.formInmueble.value.price
   }
 
-  /*   if (this.dateInmueble == null) {
-      this.userService.SaveUsers(inmueble).subscribe({
-        next: (res) => {
-          if (res.status) {
-            this.utilityService.Alert('success', 'Usuario creado correctamente');
-            this.modalsActual.close("true");
-          } else {
-            this.utilityService.Alert("No se pudo registrar el usuario", "Ha ocurrido un error!");
-          }
-        },
-        error:()=>{}
-      });
+  const id : string | any={
+    _id: this.dateInmueble ? this.dateInmueble._id : '',
+  }
+  if (this.dateInmueble == null) {
+    this.inmuebleService.newInmueble(inmueble).subscribe({
+      next: (res :any) => {
+        if (res) {
+          this.alertService.Alert('success', 'Inmueble creado correctamente');
+          this.modalsActual.close("true");
 
-    } else {
-      this.userService.EditUsers(inmueble).subscribe({
-        next:(res) =>{
-          if (res.status) {
-            this.utilityService.Alert('success', 'Usuario editado correctamente');
-            this.modalsActual.close("true");
-          } else {
-            this.utilityService.Alert("No se pudo editar el usuario", "Ha ocurrido un error!");
-          }
-        },
-       error:() =>{}
-      });
-    } */
+        } else {
+          this.alertService.Alert("No se pudo registrar el usuario", "Ha ocurrido un error!");
+
+        }
+      },
+      error:(error)=>{console.log(error)}
+    });
+  }  else {
+    console.log(id)
+    console.log(inmueble)
+    this.inmuebleService.updateInmuebleById(id, inmueble).subscribe(
+      res => {
+        if (res) {
+          this.alertService.Alert('success', 'Inmueble editado correctamente');
+          this.modalsActual.close("true");
+        } else {
+          this.alertService.Alert("No se pudo editar el inmueble", "Ha ocurrido un error!");
+        }
+      },
+      error => {
+        console.error('Error al editar el inmueble:', error);
+        this.alertService.Alert("Error al editar el inmueble", "Ha ocurrido un error");
+      }
+    );
+
+  }
+
+
   }
 
 

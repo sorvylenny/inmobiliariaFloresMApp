@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Inmueble } from 'src/app/interfaces/inmueble';
 import { environment } from 'src/environments/environment';
 
@@ -47,9 +47,15 @@ export class InmueblesService {
     return this.http.post<Inmueble>(url, inmueble);
   }
 
-  updateInmuebleById(id: string, inmueble: Inmueble): Observable<Inmueble> {
-    const url = `${this.baseUrl}update/${id}`;
-    return this.http.put<Inmueble>(url, inmueble);
+  updateInmuebleById(id: string | any, inmueble: Inmueble): Observable<Inmueble> {
+    const propietyId = id._id
+    const url = `${this.baseUrl}update/${propietyId}`;
+    console.log(url)
+    return this.http.put<Inmueble>(url, inmueble).pipe(
+      tap(updateInmueble=>{
+        updateInmueble.updatedAt = new Date();
+      })
+    );
   }
 
   deleteInmuebleById(id: string): Observable<Inmueble> {

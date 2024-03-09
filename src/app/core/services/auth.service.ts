@@ -20,46 +20,6 @@ export class AuthService {
   constructor(private http: HttpClient) {
     this.getLoggedInUser();
    }
-/*   getLoggedInUser(): Observable<User | null> {
-
-    const username = localStorage.getItem('username');
-    const roles = localStorage.getItem('roles');
-    const token = localStorage.getItem('token');
-
-    if (username && roles && token) {
-      const user: User = {
-        username: username,
-        roles: roles.split(','),
-        token: token
-      };
-      console.log(user)
-      return of(user);
-    } else {
-
-      return of(null);
-    }
-  }
-
-  initSeccion(required: Login) {
-    const url = `${this.baseUrl}login`;
-
-    return this.http.post<User>(url, required).pipe(
-      map((resp: any) => { {
-          this.setAuthToken(resp.token);
-          localStorage.setItem('token', resp.token);
-          localStorage.setItem('username', resp.user.username);
-          localStorage.setItem('roles',resp.user.roles);
-          console.log(resp);
-          return true;
-        }
-      }),
-      catchError(err => {
-        console.error('Error durante el inicio de sesión:', err);
-        return of(false);
-      })
-    );
-  }
- */
 
   initSeccion(required: any): Observable<boolean> {
     const url = `${this.baseUrl}login`;
@@ -108,13 +68,12 @@ export class AuthService {
     localStorage.setItem('loggedInUser', JSON.stringify(user));
   }
 
-  // Método para obtener el estado de autenticación del usuario
   isLoggedInt(): boolean {
     const token = localStorage.getItem('token');
     return !!token;
   }
 
-  updateUserById(id: any, user: User): Observable<User> {
+  updateUserById(id: string | any, user: User): Observable<User> {
     console.log(id)
     const userId = id._id
     const url = `${this.baseUrl}edit/${userId}`;
@@ -122,7 +81,6 @@ export class AuthService {
   }
 
   logout(): void {
-    // Limpiar localStorage o cualquier almacenamiento que uses
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('roles');

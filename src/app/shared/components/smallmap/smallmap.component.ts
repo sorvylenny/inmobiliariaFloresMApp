@@ -45,7 +45,7 @@ export class SmallmapComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         mapa.resize();
         this.showSpinner = false; // Desactiva el spinner después de 3 segundos
-      }, 5000);
+      }, 3000);
     });
   }
 

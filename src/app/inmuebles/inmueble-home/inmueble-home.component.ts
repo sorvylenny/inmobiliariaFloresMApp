@@ -98,7 +98,7 @@ export class InmuebleHomeComponent {
 
       this.inmueblesServices.seachInmuebles(query).subscribe((inmuebles: Inmueble[]) => {
         this.propiety = inmuebles;
-        this.inmueblesEncontrados = inmuebles.length > 0;
+        this.inmueblesEncontrados = inmuebles.length > 0 ? true : false;
       });
     }
   }
