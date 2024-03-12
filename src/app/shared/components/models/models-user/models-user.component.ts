@@ -14,6 +14,8 @@ export class ModelsUserComponent {
   formUser: FormGroup;
   ListRoles: string[] = ['Admin', 'Empleado'];
   hidePassword: boolean = true;
+  isNewUser: boolean = true;
+  isUpdateUser: boolean = false;
   titleAction: string = "Agregar";
   buttonAction: string = "Guardar";
 
@@ -34,6 +36,10 @@ export class ModelsUserComponent {
     if (this.dataUser!=null){
       this.titleAction="Editar";
       this.buttonAction='Modificar';
+      this.isNewUser=false
+      this.isUpdateUser=true
+      this.formUser.get('password')?.clearValidators();
+      this.formUser.get('password')?.updateValueAndValidity();
     }
   }
   ngOnInit(): void {
@@ -52,19 +58,21 @@ export class ModelsUserComponent {
     this.hidePassword = !this.hidePassword;
   }
 
-   saveEditUser() {
+  /* saveEditUser() {
     const user: User = {
       fullname: this.formUser.value.fullname,
       username: this.formUser.value.username,
-      password: this.formUser.value.password,
-      roles: this.formUser.value.roles.toLowerCase(),
-      /* isActive: this.formUser.value.isActive, */
+      roles: this.formUser.value.roles.toLowerCase()
     }
-    const id : string | any={
-      _id: this.dataUser == null ? '0' : this.dataUser._id,
-    }
+    console.log(this.dataUser)
+
+    const userId: string = {
+      _id: this.dateUser == null ? '' : this.dateUser._id,
+    };
+
 
     if (this.dataUser == null) {
+      user.password= this.formUser.value.password,
       this.authService.newUser(user).subscribe({
         next: (res :any) => {
           if (res) {
@@ -82,9 +90,10 @@ export class ModelsUserComponent {
     } else {
       console.log(id)
       console.log(user)
-      this.authService.updateUserById(id, user).subscribe(
+      this.authService.updateUserById(userId.id!, user).subscribe(
         res => {
           if (res) {
+            user.isActive= this.formUser.value.isActive,
             this.alertService.Alert('success', 'Usuario editado correctamente');
             this.modalsActual.close("true");
           } else {
@@ -100,4 +109,54 @@ export class ModelsUserComponent {
     }
 
   }
+
+ */
+  saveEditUser() {
+    const user: User = {
+      fullname: this.formUser.value.fullname,
+      username: this.formUser.value.username,
+      roles: this.formUser.value.roles.toLowerCase()
+    };
+
+    console.log(this.dataUser);
+
+    const userId: string = this.dataUser._id ? this.dataUser._id : '';
+
+
+    if (!this.dataUser) {
+      user.password = this.formUser.value.password;
+      this.authService.newUser(user).subscribe({
+        next: (res: any) => {
+          if (res) {
+            this.alertService.Alert('success', 'Usuario creado correctamente');
+            this.modalsActual.close("true");
+          } else {
+            this.alertService.Alert("No se pudo registrar el usuario", "Ha ocurrido un error!");
+          }
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+    } else {
+      console.log(userId);
+      console.log(user);
+      this.authService.updateUserById(userId, user).subscribe(
+        res => {
+          if (res) {
+            user.isActive = this.formUser.value.isActive;
+            this.alertService.Alert('success', 'Usuario editado correctamente');
+            this.modalsActual.close("true");
+          } else {
+            this.alertService.Alert("No se pudo editar el usuario", "Ha ocurrido un error!");
+          }
+        },
+        error => {
+          console.error('Error al editar el usuario:', error);
+          this.alertService.Alert("Error al editar el usuario", "Ha ocurrido un error");
+        }
+      );
+    }
+  }
+
 }

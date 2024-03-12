@@ -12,11 +12,12 @@ h2{
   font-weight: 600;
   font-size: 20px;
   color: white;
+  cursor: pointer;
 }
 .right-content {
   display: flex;
   align-items: center;
-  margin-left: 300px;
+  margin-left: 450px;
 }
 mat-icon{
   color: white;

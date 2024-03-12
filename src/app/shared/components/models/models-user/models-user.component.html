@@ -27,8 +27,8 @@
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>
-
-      <mat-grid-tile>
+<!--
+      <mat-grid-tile *ngIf="isNewUser">
         <mat-form-field class="full-width" appearance="outline">
           <mat-label>Clave</mat-label>
           <input [type]="hidePassword ? 'password' : 'text'" matInput formControlName="password" autocomplete="off">
@@ -38,7 +38,26 @@
         </mat-form-field>
       </mat-grid-tile>
 
-      <mat-grid-tile>
+      <mat-grid-tile *ngIf="isUpdateUser">
+        <mat-form-field appearance="outline">
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="isActive">
+            <mat-option value="true">Activo</mat-option>
+            <mat-option value="false">Inactivo</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile> -->
+      <mat-grid-tile *ngIf="isNewUser">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Clave</mat-label>
+          <input [type]="hidePassword ? 'password' : 'text'" matInput formControlName="password" autocomplete="off">
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="isUpdateUser">
         <mat-form-field appearance="outline">
           <mat-label>Estado</mat-label>
           <mat-select formControlName="isActive">
@@ -47,6 +66,7 @@
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>
+
 
     </mat-grid-list>
   </form>

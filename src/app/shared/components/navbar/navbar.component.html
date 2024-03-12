@@ -1,7 +1,7 @@
 
  <mat-toolbar>
   <mat-toolbar-row>
-    <h2 (click)="back()">Inmobiliaria FloresM</h2>
+    <h2 matTooltip="Volver a la pagina principal" (click)="back()">Inmobiliaria FloresM</h2>
 
     <!-- Si el usuario está logeado, mostrar el menú -->
     <ng-container *ngIf="isLoggedIn()">

@@ -12,6 +12,7 @@ export class AuthService {
   private isLoggedIn: boolean = false;
   private baseUrl:string= environment.baseUrlUser;
   private authToken!: string;
+  private logoutTimer: any;
   private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   setAuthToken(token: string) {
     this.authToken = token;
@@ -21,7 +22,7 @@ export class AuthService {
     this.getLoggedInUser();
    }
 
-  initSeccion(required: any): Observable<boolean> {
+   initSeccion(required: any): Observable<boolean> {
     const url = `${this.baseUrl}login`;
     return this.http.post<User>(url, required).pipe(
       map((resp: any) => {
@@ -31,6 +32,7 @@ export class AuthService {
         localStorage.setItem('username', user.username);
         localStorage.setItem('roles', JSON.stringify(user.roles)); // Asume que roles es un array
         this.userSubject.next(user); // Actualiza el BehaviorSubject
+        this.initLogoutTimer();
         return true;
       }),
       catchError(err => {
@@ -52,6 +54,22 @@ export class AuthService {
   get user$(): Observable<User | null> {
     return this.userSubject.asObservable();
   }
+  private initLogoutTimer(): void {
+    const token = localStorage.getItem('token');
+    const expiration = localStorage.getItem('tokenExpiration');
+    if (token && expiration) {
+      const expirationDate = new Date(expiration);
+      const currentTime = new Date();
+      const expiresIn = expirationDate.getTime() - currentTime.getTime();
+
+      // Configurar el temporizador de deslogueo
+      this.logoutTimer = setTimeout(() => {
+        this.logout(); // Desloguear al usuario
+        clearInterval(this.logoutTimer); // Limpiar el temporizador
+      }, expiresIn);
+    }
+  }
+
 
   getAllUser(): Observable<User[]>{
     const url = `${this.baseUrl}getAll`
@@ -64,27 +82,22 @@ export class AuthService {
     console.log(url);
     return this.http.post<User>(url, userData);
   }
-  private setLoggedInUser(user: User): void {
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
-  }
 
   isLoggedInt(): boolean {
     const token = localStorage.getItem('token');
     return !!token;
   }
 
-  updateUserById(id: string | any, user: User): Observable<User> {
+  updateUserById(id: string , user: User): Observable<User> {
     console.log(id)
-    const userId = id._id
-    const url = `${this.baseUrl}edit/${userId}`;
+    const url = `${this.baseUrl}edit/${id}`;
     return this.http.put<User>(url, user);
   }
-
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('roles');
-    this.userSubject.next(null); // Notificar a los suscriptores
+    this.userSubject.next(null);
   }
 
 }

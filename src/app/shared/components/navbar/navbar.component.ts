@@ -42,7 +42,7 @@ export class NavbarComponent {
     const adminMenus = [
       { nombre: 'Usuarios', url: '/auth/user/allUser', icon: 'person' },
       { nombre: 'Dashboard', url: '/dashboard', icon: 'dashboard' },
-      { nombre: 'Crear Inmueble', url: '/crear-inmueble', icon: 'add' },
+      { nombre: 'inmueble', url: '/propiedades', icon: 'add' },
       { nombre: 'Editar Inmueble', url: '/editar-inmueble', icon: 'edit' },
       // Agregar más opciones según sea necesario
     ];
