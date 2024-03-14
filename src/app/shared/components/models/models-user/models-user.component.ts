@@ -36,7 +36,7 @@ export class ModelsUserComponent {
       phoneNumber:['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       roles: ['', Validators.required],
-      isActive: [this.dataUser?.isActive != null ? this.dataUser.isActive : true]
+      isActive: ['true', Validators.required]
     });
     if (this.dataUser!=null){
       this.titleAction="Editar";
@@ -58,7 +58,7 @@ export class ModelsUserComponent {
         phoneNumber: this.dataUser.phoneNumber,
         password:this.dataUser.password,
         roles: this.dataUser.roles,
-
+        isActive: this.dataUser.isActive
       })
     }
   }
@@ -78,7 +78,8 @@ export class ModelsUserComponent {
       document: document,
       email: this.formUser.value.email,
       phoneNumber: this.formUser.value.phoneNumber,
-      roles: this.formUser.value.roles.toLowerCase()
+      roles: this.formUser.value.roles.toLowerCase(),
+      isActive: this.formUser.value.isActive
     };
 
     console.log(this.dataUser);
@@ -101,11 +102,11 @@ export class ModelsUserComponent {
     } else {
       const userId: string = this.dataUser._id ? this.dataUser._id : '';
       console.log(userId);
-      console.log(user);
+      console.log('edicion usuario',user);
       this.authService.updateUserById(userId, user).subscribe(
         res => {
           if (res) {
-            user.isActive = this.formUser.value.isActive;
+       /*      user.isActive = this.formUser.value.isActive; */
             this.alertService.Alert('success', 'Usuario editado correctamente');
             this.modalsActual.close("true");
           } else {
@@ -119,6 +120,4 @@ export class ModelsUserComponent {
       );
     }
   }
-
-
 }
