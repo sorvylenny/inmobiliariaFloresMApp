@@ -1,5 +1,5 @@
 .custom-primary-button{
-  background-color: #A7C5EB !important;
+  background-color: #a7c5eb !important;
 }
 .title {
   margin: 0px 0px 0px 40px;
@@ -23,6 +23,9 @@ table {
 th {
   text-align: center;
   color: #CD5D7D;
+  text-transform: capitalize;
+  font-weight: 700;
+  font-family: Roboto, "Helvetica Neue",
 }
 
 td {
@@ -39,6 +42,11 @@ mat-paginator{
   background-color: #F6ECF0;
   color: #CD5D7D;
 }
+.imgs3 {
+  filter: invert(78%) sepia(62%) saturate(337%) hue-rotate(326deg) brightness(90%) contrast(80%);
+}
+
+
 
 @media screen and (max-width: 767px) {
   .title {

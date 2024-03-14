@@ -13,6 +13,7 @@ import { AlertService } from 'src/app/shared/alert.service';
 export class ModelsUserComponent {
   formUser: FormGroup;
   ListRoles: string[] = ['Admin', 'Empleado'];
+  listDocument: string[] = ['CC', 'CE', 'PPT', 'NIT', 'OTRO'];
   hidePassword: boolean = true;
   isNewUser: boolean = true;
   isUpdateUser: boolean = false;
@@ -28,8 +29,12 @@ export class ModelsUserComponent {
   ) {
     this.formUser = this.fb.group({
       fullname: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      documentType: ['', Validators.required],
+      documentNumber: ['', [Validators.required, Validators.minLength(7)]],
+      email:['', [Validators.required, Validators.email]],
+      phoneNumber:['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       roles: ['', Validators.required],
       isActive: [this.dataUser?.isActive != null ? this.dataUser.isActive : true]
     });
@@ -47,6 +52,10 @@ export class ModelsUserComponent {
       this.formUser.patchValue({
         fullname: this.dataUser.fullname,
         username: this.dataUser.username,
+        documentType: '',
+        documentNumber: '',
+        email: this.dataUser.email,
+        phoneNumber: this.dataUser.phoneNumber,
         password:this.dataUser.password,
         roles: this.dataUser.roles,
 
@@ -58,70 +67,21 @@ export class ModelsUserComponent {
     this.hidePassword = !this.hidePassword;
   }
 
-  /* saveEditUser() {
-    const user: User = {
-      fullname: this.formUser.value.fullname,
-      username: this.formUser.value.username,
-      roles: this.formUser.value.roles.toLowerCase()
-    }
-    console.log(this.dataUser)
-
-    const userId: string = {
-      _id: this.dateUser == null ? '' : this.dateUser._id,
-    };
-
-
-    if (this.dataUser == null) {
-      user.password= this.formUser.value.password,
-      this.authService.newUser(user).subscribe({
-        next: (res :any) => {
-          if (res) {
-            this.alertService.Alert('success', 'Usuario creado correctamente');
-            this.modalsActual.close("true");
-
-          } else {
-            this.alertService.Alert("No se pudo registrar el usuario", "Ha ocurrido un error!");
-
-          }
-        },
-        error:(error)=>{console.log(error)}
-      });
-
-    } else {
-      console.log(id)
-      console.log(user)
-      this.authService.updateUserById(userId.id!, user).subscribe(
-        res => {
-          if (res) {
-            user.isActive= this.formUser.value.isActive,
-            this.alertService.Alert('success', 'Usuario editado correctamente');
-            this.modalsActual.close("true");
-          } else {
-            this.alertService.Alert("No se pudo editar el usuario", "Ha ocurrido un error!");
-          }
-        },
-        error => {
-          console.error('Error al editar el usuario:', error);
-          this.alertService.Alert("Error al editar el usuario", "Ha ocurrido un error");
-        }
-      );
-
-    }
-
-  }
-
- */
   saveEditUser() {
+    const documentType = this.formUser.value.documentType;
+    const documentNumber = this.formUser.value.documentNumber;
+
+  const document = `${documentType} ${documentNumber}`;
     const user: User = {
       fullname: this.formUser.value.fullname,
       username: this.formUser.value.username,
+      document: document,
+      email: this.formUser.value.email,
+      phoneNumber: this.formUser.value.phoneNumber,
       roles: this.formUser.value.roles.toLowerCase()
     };
 
     console.log(this.dataUser);
-
-    const userId: string = this.dataUser._id ? this.dataUser._id : '';
-
 
     if (!this.dataUser) {
       user.password = this.formUser.value.password;
@@ -139,6 +99,7 @@ export class ModelsUserComponent {
         }
       });
     } else {
+      const userId: string = this.dataUser._id ? this.dataUser._id : '';
       console.log(userId);
       console.log(user);
       this.authService.updateUserById(userId, user).subscribe(
@@ -158,5 +119,6 @@ export class ModelsUserComponent {
       );
     }
   }
+
 
 }

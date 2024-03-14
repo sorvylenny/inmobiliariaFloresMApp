@@ -86,7 +86,7 @@ export class InmuebleComponent {
         this.inmuebleService.deleteInmuebleById(propiety._id!).subscribe({
           next: (res) => {
             if (res) {
-              this.alertService.Alert("El usuario fue eliminado", "Great!");
+              this.alertService.Alert("El Inmueble fue eliminado", "Great!");
               this.getProperties();
             } else {
               this.alertService.Alert("No se pudo eliminar el Usuario", "¡Error!");

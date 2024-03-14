@@ -4,6 +4,65 @@
 <mat-dialog-content>
   <form [formGroup]="formInmueble">
     <mat-grid-list cols="1" rowHeight="100px">
+<!--       <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Propietario</mat-label>
+          <input matInput formControlName="ownerId" [matAutocomplete]="auto"/>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let owner of filteredOwners | async" [value]="owner">
+              {{ owner.name }}
+            </mat-option>
+          </mat-autocomplete>
+          <button mat-icon-button *ngIf="ownerInputClicked && !formInmueble.get('ownerId')!.value" (click)="openCreateOwnerDialog()" style="margin-left: 8px;">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-grid-tile>
+ -->
+ <!-- <mat-grid-tile>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Propietario</mat-label>
+      <input matInput formControlName="ownerId" [matAutocomplete]="auto"/>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let owner of filteredOwners | async" [value]="owner">
+          {{ owner.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div>
+      <button mat-icon-button *ngIf="ownerInputClicked && !formInmueble.get('ownerId')!.value" (click)="openCreateOwnerDialog()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-grid-tile>
+
+ -->
+ <mat-grid-tile>
+    <mat-form-field appearance="outline" >
+      <mat-label>Propietario</mat-label>
+      <input matInput formControlName="ownerId" [matAutocomplete]="auto"/>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let owner of filteredOwners | async" [value]="owner">
+          {{ owner.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div>
+      <button mat-icon-button (click)="openCreateOwnerDialog()">
+        <mat-icon>person_add</mat-icon>
+      </button>
+    </div>
+</mat-grid-tile>
+
+       <mat-grid-tile>
+        <mat-form-field appearance="outline">
+        <mat-label>Número de Referencia</mat-label>
+        <input matInput formControlName="numberRef" autocomplete="off" />
+      </mat-form-field>
+      </mat-grid-tile>
+
       <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Título</mat-label>

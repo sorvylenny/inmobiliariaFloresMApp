@@ -11,6 +11,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SmallmapComponent } from './components/smallmap/smallmap.component';
 import { AboutComponent } from './components/models/about/about.component';
 import { PrivacypolicyComponent } from './components/models/privacypolicy/privacypolicy.component';
+import { ModelsownerComponent } from './components/models/modelsowner/modelsowner.component';
 
 
 
@@ -22,7 +23,8 @@ import { PrivacypolicyComponent } from './components/models/privacypolicy/privac
     NavbarComponent,
     SmallmapComponent,
     AboutComponent,
-    PrivacypolicyComponent
+    PrivacypolicyComponent,
+    ModelsownerComponent
   ],
   imports: [
     CommonModule,

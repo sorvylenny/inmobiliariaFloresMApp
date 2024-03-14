@@ -1,0 +1,37 @@
+
+<h1 mat-dialog-title>{{ titleAction }}</h1>
+
+<mat-dialog-content>
+  <form [formGroup]="formOwner">
+    <mat-grid-list cols="1" rowHeight="100px">
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name" autocomplete="off" />
+          <mat-icon matSuffix>person_2</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Telefono</mat-label>
+          <input matInput formControlName="phoneNumber" autocomplete="off" />
+          <mat-icon matSuffix>ad_units</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Dirección</mat-label>
+          <input matInput formControlName="address" autocomplete="off" />
+          <mat-icon matSuffix>apartment</mat-icon>
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="warn">Volver</button>
+    <button mat-raised-button [disabled]="formOwner.invalid" (click)="saveOwner()">{{buttonAction}}</button>
+
+</mat-dialog-actions>

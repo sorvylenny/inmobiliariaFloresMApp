@@ -1,5 +1,7 @@
 export interface Inmueble {
   _id?: string;
+  ownerId?: string;
+  numberRef?: string;
   title: string;
   description: string;
   address: string;

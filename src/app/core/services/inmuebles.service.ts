@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Inmueble } from 'src/app/interfaces/inmueble';
+import { Owner } from 'src/app/interfaces/owner';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -41,6 +42,20 @@ export class InmueblesService {
     const url = `${this.baseUrl}seemore/${id}`;
     return this.http.get<Inmueble>(url);
   }
+
+  onwerInmuebles(): Observable<Owner[]> {
+    const url = `${this.baseUrl}allOwner`;
+    return this.http.get<Owner[]>(url);
+  }
+
+  creatOwner(owner: Owner): Observable<Owner> {
+    const url = `${this.baseUrl}creatOwner`;
+    return this.http.post<Owner>(url, owner);
+  }/*
+  getInmuebleByOwner(id: string): Observable<Inmueble[]> {
+    const url = `${this.baseUrl}owner/${id}`;
+    return this.http.get<Inmueble[]>(url);
+  } */
 
   newInmueble(inmueble: Inmueble): Observable<Inmueble> {
     const url = `${this.baseUrl}create`;

@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/interfaces/user';
 import { AlertService } from 'src/app/shared/alert.service';
@@ -20,22 +21,14 @@ export class AlluserComponent {
 
 
   constructor(private dialog: MatDialog,
+              private router: Router,
               private authService: AuthService,
               private alertService: AlertService ) { }
 
-  /* obtenerUsers(){
-   this.authService.getAllUser().subscribe({
-      next:(data)=>{
-        if(data.status){ this.dataListUser.data = data.value}
-        else{this.alertService.Alert("No se encontro nada","Ha ocurrido un error")}
-      },
-      error:(e)=>{}
-    })
-  } */
   obtenerUsers() {
     this.authService.getAllUser().subscribe({
       next: (data: User[]) => {
-        // Verificar si se recibió una respuesta válida
+
         if (data && data.length > 0) {
           this.dataListUser.data = data;
         } else {
@@ -49,9 +42,12 @@ export class AlluserComponent {
     });
   }
 
+
+
   ngOnInit(): void {
     this.obtenerUsers();
   }
+
   ngAfterViewInit(): void {
     this.dataListUser.paginator = this.paginatorTable;
   }
@@ -69,6 +65,7 @@ export class AlluserComponent {
       if(res ==="true") this.obtenerUsers();
     });
   }
+
   editUser(user:User){
     console.log(user)
     this.dialog.open(ModelsUserComponent, {
@@ -78,5 +75,12 @@ export class AlluserComponent {
       if(res ==="true") this.obtenerUsers();
     });
   }
+  userDetails(id: string){
+    this.router.navigate(['auth/user/details', id]);
+  }
+  convertirABooleano(valor: string): boolean {
+    return valor === 'true' ? true : false;
+  }
+
 
 }

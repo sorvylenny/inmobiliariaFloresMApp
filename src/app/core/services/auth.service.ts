@@ -93,6 +93,12 @@ export class AuthService {
     const url = `${this.baseUrl}edit/${id}`;
     return this.http.put<User>(url, user);
   }
+
+  userDetails(id:string): Observable<User>{
+    const url = `${this.baseUrl}user/${id}`;
+    return this.http.get<User>(url);
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
