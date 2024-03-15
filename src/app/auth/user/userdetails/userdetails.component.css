@@ -1,3 +1,9 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
  .card {
   position: relative;
@@ -6,7 +12,7 @@
   border-radius: 1rem;
   background-color: #949CDF;
   padding: 1rem;
-  margin: 20px 0px 0px 40px;
+  margin: O auto;
   overflow: hidden;
 }
 
@@ -17,18 +23,6 @@
   grid-gap: 1rem;
   gap: 1rem;
 }
-
-/* .image {
-  height: 7rem;
-  width: 7rem;
-  border-radius: 0.5rem;
-  background-color: rgb(118, 36, 194);
-  background: linear-gradient(to bottom right, rgb(118, 36, 194), rgb(185, 128, 240));
-}
-.image mat-icon{
-  width: 200px;
-  height: 200px;
-} */
 
 .image {
   display: flex;
@@ -42,8 +36,8 @@
 }
 
 .image img {
-  font-size: 3rem; /* Ajusta esto para cambiar el tamaño del ícono */
-  color: #fff; /* Cambia el color aquí si es necesario */
+  font-size: 3rem;
+  color: #fff;
 }
 
 .info {

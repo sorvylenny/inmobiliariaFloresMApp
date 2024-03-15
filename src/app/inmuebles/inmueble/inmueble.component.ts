@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class InmuebleComponent {
 
-  ColumnsTable: string [] =['title', 'address', 'department', 'city', 'description','price','latlongitude','bathrooms','bedrooms', 'closet', 'createdAt','updatedAt','createdBy','updatedBy', 'actions'];
+  ColumnsTable: string [] =['title', 'address', 'department', 'city', 'price','bathrooms','bedrooms', 'closet', 'actions'];
   dataInit:   Inmueble[]=[];
   dataListProperty = new MatTableDataSource (this.dataInit);
   @ViewChild(MatPaginator) paginatorTable! : MatPaginator;

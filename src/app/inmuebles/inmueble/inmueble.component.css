@@ -20,7 +20,7 @@ table {
   font-size: 14px;
 }
 .hide-on-mobile{
-  font-size: 12px; /* Tamaño de fuente más pequeño */
+  font-size: 12px;
   padding: 4px 8px;
 }
 .description-column .mat-cell {
@@ -32,7 +32,7 @@ th {
   text-align: center;
   color: #CD5D7D;
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 td {

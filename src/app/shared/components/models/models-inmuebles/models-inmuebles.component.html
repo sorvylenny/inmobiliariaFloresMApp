@@ -55,14 +55,6 @@
       </button>
     </div>
 </mat-grid-tile>
-
-       <mat-grid-tile>
-        <mat-form-field appearance="outline">
-        <mat-label>Número de Referencia</mat-label>
-        <input matInput formControlName="numberRef" autocomplete="off" />
-      </mat-form-field>
-      </mat-grid-tile>
-
       <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Título</mat-label>
@@ -80,16 +72,36 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Departamento</mat-label>
-          <input matInput formControlName="department" autocomplete="off" />
+          <input matInput formControlName="department" [matAutocomplete]="departauto">
+          <mat-icon matSuffix>flag</mat-icon>
+          <mat-autocomplete #departauto="matAutocomplete" [displayWith]="displayFnDepartments" (optionSelected)="onDepartmentSelected($event)">
+            <mat-option *ngFor="let depart of filteredDepartments | async" [value]="depart">
+              {{ depart.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>Departamento</mat-label>
+          <input matInput formControlName="department"/>
           <mat-icon matSuffix>flag</mat-icon>
         </mat-form-field>
-      </mat-grid-tile>
+      --> </mat-grid-tile>
       <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Ciudad</mat-label>
-          <input matInput formControlName="city" autocomplete="off" />
+          <input matInput formControlName="city" [matAutocomplete]="cityAuto">
           <mat-icon matSuffix>location_city</mat-icon>
+          <mat-autocomplete #cityAuto="matAutocomplete" [displayWith]="displayFnCities">
+            <mat-option *ngFor="let cities of filteredCities | async" [value]="cities">
+              {{ cities.name }}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>Ciudad</mat-label>
+          <input matInput formControlName="city" />
+          <mat-icon matSuffix>location_city</mat-icon>
+        </mat-form-field> -->
       </mat-grid-tile>
       <mat-grid-tile>
         <mat-form-field appearance="outline">

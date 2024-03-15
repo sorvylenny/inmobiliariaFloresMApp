@@ -40,18 +40,15 @@ export class NavbarComponent {
   loadMenus(): void {
     // Menús para admin
     const adminMenus = [
-      { nombre: 'Usuarios', url: '/auth/user/allUser', icon: 'person' },
       { nombre: 'Dashboard', url: '/dashboard', icon: 'dashboard' },
-      { nombre: 'inmueble', url: '/propiedades', icon: 'add' },
-      { nombre: 'Editar Inmueble', url: '/editar-inmueble', icon: 'edit' },
-      // Agregar más opciones según sea necesario
+      { nombre: 'Usuarios', url: '/auth/user/allUser', icon: 'person' },
+      { nombre: 'Inmueble', url: '/propiedades', icon: 'add' },
     ];
 
     // Menús para empleado
     const empleadoMenus = [
-      { nombre: 'Buscar Inmueble', url: '/buscar-inmueble', icon: 'search' },
-      { nombre: 'Crear Inmueble', url: '/crear-inmueble', icon: 'add' },
-      { nombre: 'Editar Inmueble', url: '/editar-inmueble', icon: 'edit' },
+      { nombre: 'Dashboard', url: '/dashboard', icon: 'dashboard' },
+      { nombre: 'Inmueble', url: '/propiedades', icon: 'add' },
     ];
 
     if (this.rolesUser.includes('admin')) {
@@ -66,7 +63,7 @@ export class NavbarComponent {
     this.listMenus = [];
   }
 
-  closetSesion(): void {
+  closeSesion(): void {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
   }

@@ -6,6 +6,7 @@
   margin-right: 20px;
   font-family: "Playfair Display", serif;
   font-weight: 600;
+  color:white;
 }
 h2{
   font-family: "Playfair Display", serif;
@@ -23,7 +24,7 @@ mat-icon{
   color: white;
 }
 mat-toolbar {
-background-color: #CD5D7D;
+background-color: #949CDF;
 font-family: "Playfair Display", serif;
 font-weight: 600;
 }
@@ -76,10 +77,10 @@ height: 80vh;
 .card .img {
   width: 70px;
   height: 70px;
-  background: #e8e8e8;
-  border-radius: 100%;
   margin: auto;
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .card button {

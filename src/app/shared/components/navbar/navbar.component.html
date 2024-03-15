@@ -10,8 +10,8 @@
       </button>
       <span class="menu-span"></span>
       <div class="right-content">
-        <label class="menu-label">{{ username }} | {{ rolesUser }}</label>
-        <button mat-icon-button (click)="closetSesion()">
+        <label class="menu-label">{{ username | titlecase }} | {{ rolesUser }}</label>
+        <button mat-icon-button (click)="closeSesion()">
           <mat-icon>logout</mat-icon>
         </button>
       </div>
@@ -34,10 +34,9 @@
       <ng-container *ngIf="isLoggedIn()">
         <div class="card">
           <div class="card-border-top"></div>
-          <div class="img"></div>
-          <span>{{ username }}</span>
+          <div class="img"> <img src="assets/Person.png" alt="" style="width: 100px; height: 100px; height: 100px; border-radius: 50%;"></div>
+          <span>{{ username | titlecase }}</span>
           <p class="job">{{ rolesUser }}</p>
-          <button>Click</button>
         </div>
       </ng-container>
 

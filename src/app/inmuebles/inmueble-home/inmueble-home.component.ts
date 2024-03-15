@@ -119,7 +119,7 @@ export class InmuebleHomeComponent {
   } */
   onDepartmentSelected(event: MatAutocompleteSelectedEvent): void {
     const selectedDepartment: Department = event.option.value;
-    if (selectedDepartment.id) {
+    if (selectedDepartment && selectedDepartment.id) {
 
       this.allCity(selectedDepartment.id).subscribe(cities => {
         this.filteredCitiesList = cities;

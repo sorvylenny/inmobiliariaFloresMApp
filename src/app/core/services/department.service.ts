@@ -18,11 +18,6 @@ export class DepartmentService {
     return this.http.get<Department[]>(url);
   }
 
-  getCities() {
-    const url = `${this.Url}City`;
-    return this.http.get(url);
-  }
-
   getCitiesByDepartment(idDepartment: number) {
     const url = `${this.Url}Department/${idDepartment}/cities`;
     return this.http.get<City[]>(url).pipe(

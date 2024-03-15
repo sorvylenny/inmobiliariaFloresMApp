@@ -1,18 +1,16 @@
 import { Component, Inject } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { Observable, map, of, startWith } from "rxjs";
+import { Observable, filter, map, of, startWith, switchMap } from "rxjs";
 import { InmueblesService } from "src/app/core/services/inmuebles.service";
 import { Inmueble } from "src/app/interfaces/inmueble";
 import { Owner } from "src/app/interfaces/owner";
 import { AlertService } from "src/app/shared/alert.service";
 import { ModelsownerComponent } from "../modelsowner/modelsowner.component";
-
-interface Departamento {
-  nombre: string;
-  codigo: string;
-}
-
+import { DepartmentService } from "src/app/core/services/department.service";
+import { Department } from "src/app/interfaces/department";
+import { City } from "src/app/interfaces/city";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 
 @Component({
   selector: "app-models-inmuebles",
@@ -24,55 +22,25 @@ export class ModelsInmueblesComponent {
   titleAction: string = "Agregar Inmueble";
   buttonAction: string = "Guardar";
   owners: Owner[] = [];
+  departments: Department[] = [];
+  cities: City[]=[];
   ownerInputClicked: boolean = false;
+  filteredDepartments: Observable<Department[]> | undefined;
+  filteredCities: Observable<City[]> | undefined;
   filteredOwners: Observable<Owner[]> | undefined;
-  estadoDepartamentos: { [key: string]: boolean } = {};
+  private filteredCitiesList: City[]=[];
 
-  departamentos: Departamento[] = [
-  { nombre: 'Amazonas', codigo: 'AMA' },
-  { nombre: 'Antioquia', codigo: 'ANT' },
-  { nombre: 'Arauca', codigo: 'ARA' },
-  { nombre: 'Atlántico', codigo: 'ATL' },
-  { nombre: 'Bogotá, D.C.', codigo: 'BOG' },
-  { nombre: 'Bolívar', codigo: 'BOL' },
-  { nombre: 'Boyacá', codigo: 'BOY' },
-  { nombre: 'Caldas', codigo: 'CAL' },
-  { nombre: 'Caquetá', codigo: 'CAQ' },
-  { nombre: 'Casanare', codigo: 'CAS' },
-  { nombre: 'Cauca', codigo: 'CAU' },
-  { nombre: 'Cesar', codigo: 'CES' },
-  { nombre: 'Chocó', codigo: 'CHO' },
-  { nombre: 'Córdoba', codigo: 'COR' },
-  { nombre: 'Cundinamarca', codigo: 'CUN' },
-  { nombre: 'Guainía', codigo: 'GUA' },
-  { nombre: 'Guaviare', codigo: 'GUV' },
-  { nombre: 'Huila', codigo: 'HUI' },
-  { nombre: 'La Guajira', codigo: 'LAG' },
-  { nombre: 'Magdalena', codigo: 'MAG' },
-  { nombre: 'Meta', codigo: 'MET' },
-  { nombre: 'Nariño', codigo: 'NAR' },
-  { nombre: 'Norte de Santander', codigo: 'NSA' },
-  { nombre: 'Putumayo', codigo: 'PUT' },
-  { nombre: 'Quindío', codigo: 'QUI' },
-  { nombre: 'Risaralda', codigo: 'RIS' },
-  { nombre: 'San Andrés', codigo: 'SAN' },
-  { nombre: 'Santander', codigo: 'SAN' },
-  { nombre: 'Sucre', codigo: 'SUC' },
-  { nombre: 'Tolima', codigo: 'TOL' },
-  { nombre: 'Valle del Cauca', codigo: 'VAC' },
-  { nombre: 'Vaupés', codigo: 'VAU' },
-  { nombre: 'Vichada', codigo: 'VIC' }
-];
+
   constructor(private dialog: MatDialog,
     private modalsActual: MatDialogRef<ModelsInmueblesComponent>,
     @Inject(MAT_DIALOG_DATA) public dateInmueble: Inmueble,
     private fb: FormBuilder,
     private inmuebleService: InmueblesService,
+    private departmentService: DepartmentService,
     private alertService: AlertService
   ) {
     this.formInmueble = this.fb.group({
-      ownerId: ["", Validators.required], // Aquí asignamos el ID del propietario obtenido anteriormente
-      numberRef: ["", Validators.required],
+      ownerId: ["", Validators.required],
       title: ["", Validators.required],
       address: ["", Validators.required],
       department: ["", Validators.required],
@@ -107,13 +75,33 @@ export class ModelsInmueblesComponent {
       });
     }
     this.getAllOwner();
-  }
+    this.filteredDepartments = this.formInmueble.controls['department'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterDepartments(value))
+    );
+
+    this.loadDepartments();
+
+    this.formInmueble.controls['department'].valueChanges.subscribe(selectedCity => {
+      if (selectedCity && selectedCity.departmentId) {
+        this.loadCities(selectedCity.departmentId).subscribe(cities => {
+          this.filteredCitiesList = cities;
+          console.log(cities);
+        });
+      }
+    });
+
+    this.filteredCities = this.formInmueble.controls['city'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filteredCities(value))
+    );
+
+ }
 
   saveEditInmueble() {
 
     const inmueble: Inmueble = {
       ownerId: this.formInmueble.value.ownerId,
-      numberRef: this.formInmueble.value.numberRef,
       title: this.formInmueble.value.title,
       address: this.formInmueble.value.address,
       department: this.formInmueble.value.department,
@@ -210,37 +198,45 @@ export class ModelsInmueblesComponent {
       }
     });
   }
-/*   generarNumeroReferencia(departamento: string): string | null {
-    const departamentoEncontrado = this.departamentos.find(dep => dep.nombre.toUpperCase() === departamento.toUpperCase());
-    if (!departamentoEncontrado) return null;
+  loadDepartments() {
+    this.departmentService.getDepartments().subscribe(departments => {
+      this.departments = departments;
+  });
+  }
+  displayFnDepartments(department: Department): string {
+    return department && department.name ? department.name : '';
+  }
 
+  displayFnCities(city: City): string {
+    return city && city.name ? city.name : '';
+  }
 
-    if (!this.estadoDepartamentos[departamentoEncontrado.codigo]) {
+  private _filterDepartments(value: string|Department): Department[] {
+    const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
+    return this.departments.filter(department => department.name.toLowerCase().includes(filterValue));
+  }
 
-        this.estadoDepartamentos[departamentoEncontrado.codigo] = true;
-        return `${departamentoEncontrado.codigo}-001`;
+  private _filteredCities(value: any): City[] {
+    const filterValue = typeof value === 'string' ? value.toLowerCase() :'';
+    return this.cities.filter(city => city.name.toLowerCase().includes(filterValue));
+  }
+
+  loadCities(departmentId: number): Observable<City[]> {
+    return this.departmentService.getCitiesByDepartment(departmentId);
+  }
+
+  onDepartmentSelected(event: MatAutocompleteSelectedEvent): void {
+    const selectedDepartment: Department = event.option.value;
+    if (selectedDepartment && selectedDepartment.id) {
+      this.formInmueble.patchValue({ department: selectedDepartment });
+      this.loadCities(selectedDepartment.id).subscribe(cities => {
+        this.filteredCities = of(cities);
+        console.log(cities);
+      });
     }
-
-
-    const numeroReferencia = Math.floor(Math.random() * 998) + 2;
-
-
-    const numeroReferenciaFormateado = numeroReferencia.toString().padStart(3, '0');
-
-
-    return `${departamentoEncontrado.codigo}-${numeroReferenciaFormateado}`;
-}
-
-
-generarYMostrarNumeroReferencia(departamento: string) {
-    const numeroReferencia = this.generarNumeroReferencia(departamento);
-    if (numeroReferencia) {
-        console.log('Número de referencia generado:', numeroReferencia);
-    } else {
-        console.log('Departamento no válido');
-    }
-}
- */
+  }
 
 }
+
+
 
