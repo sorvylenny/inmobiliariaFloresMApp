@@ -22,7 +22,7 @@
             <table mat-table [dataSource]="dataListProperty" class="mat-elevation-z8 table-responsive">
                 <ng-container matColumnDef="title" class="hide-on-mobile">
                     <th mat-header-cell *matHeaderCellDef>Titulo</th>
-                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.title}} | {{element.numberRef}} </td>
                   </ng-container>
                 <ng-container matColumnDef="address" class="hide-on-mobile">
                     <th mat-header-cell *matHeaderCellDef> Dirección</th>
@@ -58,7 +58,10 @@
                         <button mat-icon-button class="custom-primary-icon small-button" (click)="editPropiety(element)">
                             <mat-icon mat-list-icon>border_color</mat-icon>
                         </button>
-                        <button mat-icon-button class="custom-primary-icon small-button" (click)="deleteInmueble(element)">
+                        <button mat-icon-button class="custom-primary-icon small-button" (click)="openDetallesInmuebleModal(element)">
+                            <mat-icon mat-list-icon>search</mat-icon>
+                        </button>
+                        <button mat-icon-button *ngIf="!isAdmin" class="custom-primary-icon small-button" (click)="deleteInmueble(element)">
                             <mat-icon mat-list-icon>delete</mat-icon>
                         </button>
                     </td>

@@ -1,0 +1,37 @@
+mat-card{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 20px;
+}
+
+mat-card-title{
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+mat-card-content{
+  font-family: "Playfair Display", serif;
+  font-weight: 300;
+  font-size: 18px;
+  text-align: justify;
+}
+
+ul{
+  list-style: none;
+}
+
+ul li{
+  display: flex;
+  font-size: 16px;
+  font-family: "Playfair Display", serif;
+  font-weight: 300;
+}
+.detail-label {
+  margin-right: 5px;
+  font-weight: bold;
+  text-transform: capitalize;
+}

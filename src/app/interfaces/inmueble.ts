@@ -17,4 +17,5 @@ export interface Inmueble {
   bedrooms: number;
   closet?: number;
   price: number;
+  isActive?: boolean;
 }

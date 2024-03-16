@@ -178,11 +178,18 @@ export class ModelsInmueblesComponent {
     return owner && owner.name ? owner.name : '';
   }
 
-  private _filterOwners(value: string | Owner): Owner[] {
-    const filterValue = (value instanceof Object) ? value.name.toLowerCase() : value.toLowerCase();
+  /* private _filterOwners(value: string | Owner): Owner[] {
+    const filterValue = (value instanceof Object) ? value.name.toLowerCase() :'';
     return this.owners.filter(owner => owner.name.toLowerCase().includes(filterValue));
+  } */
+  private _filterOwners(value: string | Owner): Owner[] {
+    const filterValue = (typeof value === 'string') ? value.toLowerCase() : '';
+    if (value instanceof Object && value.name) {
+      return this.owners.filter(owner => owner.name.toLowerCase().includes(filterValue));
+    } else {
+      return this.owners;
+    }
   }
-
 
   openCreateOwnerDialog(): void {
     const dialogRef = this.dialog.open(ModelsownerComponent, {
@@ -195,6 +202,7 @@ export class ModelsInmueblesComponent {
         this.owners.push(result);
 
         this.formInmueble.patchValue({ ownerId: result._id });
+
       }
     });
   }
@@ -216,8 +224,12 @@ export class ModelsInmueblesComponent {
     return this.departments.filter(department => department.name.toLowerCase().includes(filterValue));
   }
 
-  private _filteredCities(value: any): City[] {
+  /* private _filteredCities(value: any): City[] {
     const filterValue = typeof value === 'string' ? value.toLowerCase() :'';
+    return this.cities.filter(city => city.name.toLowerCase().includes(filterValue));
+  } */
+  private _filteredCities(value: string): City[] {
+    const filterValue = value.toLowerCase();
     return this.cities.filter(city => city.name.toLowerCase().includes(filterValue));
   }
 

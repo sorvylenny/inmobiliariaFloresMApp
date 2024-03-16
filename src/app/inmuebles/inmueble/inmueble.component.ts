@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { InmueblesService } from 'src/app/core/services/inmuebles.service';
 import { Inmueble } from 'src/app/interfaces/inmueble';
 import { AlertService } from 'src/app/shared/alert.service';
+import { ModelsDetailsInmuebleComponent } from 'src/app/shared/components/models/models-details-inmueble/models-details-inmueble.component';
 import { ModelsInmueblesComponent } from 'src/app/shared/components/models/models-inmuebles/models-inmuebles.component';
 import Swal from 'sweetalert2';
 
@@ -19,11 +20,17 @@ export class InmuebleComponent {
   dataInit:   Inmueble[]=[];
   dataListProperty = new MatTableDataSource (this.dataInit);
   @ViewChild(MatPaginator) paginatorTable! : MatPaginator;
+  isAdmin: boolean = false;
 
 
   constructor(private dialog: MatDialog,
               private inmuebleService: InmueblesService,
-              private alertService: AlertService ) { }
+              private cdr: ChangeDetectorRef,
+              private alertService: AlertService ) {
+                const userRole = localStorage.getItem('roles');
+                this.isAdmin = userRole === 'admin';
+
+              }
   getProperties() {
     this.inmuebleService.allInmuebles().subscribe({
       next: (data: Inmueble[]) => {
@@ -43,6 +50,9 @@ export class InmuebleComponent {
 
   ngOnInit(): void {
     this.getProperties();
+    /* const userRole = localStorage.getItem('roles');
+    this.isAdmin = userRole === 'admin';
+    this.cdr.detectChanges(); */
   }
   ngAfterViewInit(): void {
     this.dataListProperty.paginator = this.paginatorTable;
@@ -95,6 +105,16 @@ export class InmuebleComponent {
           error: () => { }
         });
       }
+    });
+  }
+
+  openDetallesInmuebleModal(inmuebles:Inmueble) {
+    this.dialog.open(ModelsDetailsInmuebleComponent, {
+      width: '500px',
+      disableClose:true,
+      data: inmuebles
+    }).afterClosed().subscribe(res =>{
+      if(res ==="true") this.getProperties();
     });
   }
 

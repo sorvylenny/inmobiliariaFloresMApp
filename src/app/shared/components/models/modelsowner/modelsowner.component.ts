@@ -46,7 +46,7 @@ export class ModelsownerComponent {
 
   saveOwner(){
     const owner: Owner = {
-      name: this.formOwner.value.title,
+      name: this.formOwner.value.name,
       phoneNumber: this.formOwner.value.phoneNumber,
       address: this.formOwner.value.address,
     }

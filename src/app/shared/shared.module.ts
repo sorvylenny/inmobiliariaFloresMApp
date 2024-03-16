@@ -12,6 +12,7 @@ import { SmallmapComponent } from './components/smallmap/smallmap.component';
 import { AboutComponent } from './components/models/about/about.component';
 import { PrivacypolicyComponent } from './components/models/privacypolicy/privacypolicy.component';
 import { ModelsownerComponent } from './components/models/modelsowner/modelsowner.component';
+import { ModelsDetailsInmuebleComponent } from './components/models/models-details-inmueble/models-details-inmueble.component';
 
 
 
@@ -24,7 +25,8 @@ import { ModelsownerComponent } from './components/models/modelsowner/modelsowne
     SmallmapComponent,
     AboutComponent,
     PrivacypolicyComponent,
-    ModelsownerComponent
+    ModelsownerComponent,
+    ModelsDetailsInmuebleComponent
   ],
   imports: [
     CommonModule,
