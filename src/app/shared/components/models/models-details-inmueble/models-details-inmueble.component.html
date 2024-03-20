@@ -2,13 +2,14 @@
   <mat-card-title>Detalles del inmueble</mat-card-title>
   <mat-card-content *ngIf="dataInmueble">
     <ul>
-      <li><p class="detail-label">titulo:</p> <p>{{dataInmueble.title}} |{{dataInmueble.numberRef}}</p></li>
+      <li><p class="detail-label">Nº.Ref:</p> <p> {{dataInmueble.numberRef}}</p></li>
+      <li><p class="detail-label">titulo:</p> <p>{{dataInmueble.title}}</p></li>
       <li><p class="detail-label">propietario:</p> <p>{{ownerName || 'Desconocido'}}</p></li>
       <li><p class="detail-label">descripción:</p> <p>{{dataInmueble.description}}</p></li>
       <li><p class="detail-label">precio:</p> <p>{{dataInmueble.price | currency}}</p></li>
       <li><p class="detail-label">creado por:</p> <p>{{dataInmueble.createdBy ||'Desconocido'}}</p></li>
       <li><p class="detail-label">fecha de creación:</p> <p>{{dataInmueble.createdAt |date: 'short' }}</p></li>
-      <li><p class="detail-label">actualizado por:</p> <p>{{dataInmueble.updatedBy |titlecase}}</p></li>
+      <li><p class="detail-label">actualizado por:</p> <p>{{dataInmueble.updatedBy ||'Desconocido'}}</p></li>
       <li><p class="detail-label">fecha de actualización:</p> <p>{{dataInmueble.updatedAt |date: 'short' }}</p></li>
       <li><p class="detail-label">latitud:</p> <p>{{dataInmueble.latitude}}</p></li>
       <li><p class="detail-label">longitud:</p> <p>{{dataInmueble.longitude}}</p></li>

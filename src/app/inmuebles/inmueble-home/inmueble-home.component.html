@@ -20,15 +20,15 @@
           <mat-form-field class="full-new">
             <input matInput placeholder="Buscar departamento" [formControl]="searchDepartmentControl" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnDepartments" (optionSelected)="onDepartmentSelected($event)" >
-              <mat-option *ngFor="let department of filteredDepartments | async" [value]="department">
-                {{ department.name }}
+              <mat-option *ngFor="let depart of filteredDepartments | async" [value]="depart">
+                {{ depart?.name }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
 
           <mat-form-field class="full-new">
-            <input matInput placeholder="Buscar ciudad" [formControl]="searchCityControl" [matAutocomplete]="autoCities">
-            <mat-autocomplete #autoCities="matAutocomplete" [displayWith]="displayFnCities" (keyup)="search()">
+            <input matInput placeholder="Buscar ciudad" [formControl]="searchCityControl" [matAutocomplete]="autoCities" (keyup)="search()">
+            <mat-autocomplete #autoCities="matAutocomplete" [displayWith]="displayFnCities" >
               <mat-option *ngFor="let city of filteredCities | async" [value]="city">
                 {{ city.name }}
               </mat-option>
@@ -38,7 +38,7 @@
   </mat-card-content>
 </mat-card>
 
-<div class="container">
+
 
   <div class="card-container">
     <div  *ngFor="let estate of propiety">
@@ -58,7 +58,7 @@
         </div>
 
         <p class="card__descr">
-          {{estate.description}}
+          {{estate.description | slice:0:108}}
         </p>
         <div class="card__price" matTooltip="{{estate.price | currency:'USD':'symbol':'1.0-0'}}">
           {{estate.price | currency:'USD':'symbol':'1.0-0'}}
@@ -78,4 +78,4 @@
 
   </div>
 
-</div>
+

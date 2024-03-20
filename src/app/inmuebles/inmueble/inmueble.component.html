@@ -20,9 +20,13 @@
 
         <div class="mat-elevation-z2">
             <table mat-table [dataSource]="dataListProperty" class="mat-elevation-z8 table-responsive">
-                <ng-container matColumnDef="title" class="hide-on-mobile">
+                <ng-container matColumnDef="_id" class="hide-on-mobile">
+                    <th mat-header-cell *matHeaderCellDef> No.Ref</th>
+                    <td mat-cell *matCellDef="let element"> {{element.numberRef}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="title" class="hide-on-mobile">
                     <th mat-header-cell *matHeaderCellDef>Titulo</th>
-                    <td mat-cell *matCellDef="let element"> {{element.title}} | {{element.numberRef}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
                   </ng-container>
                 <ng-container matColumnDef="address" class="hide-on-mobile">
                     <th mat-header-cell *matHeaderCellDef> Dirección</th>

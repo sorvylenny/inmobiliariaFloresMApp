@@ -30,7 +30,7 @@ export class LoginComponent {
     });
   }
 
-  initSesion() {
+/*   initSesion() {
     this.showLoading = true;
 
     const request: Login = {
@@ -44,9 +44,14 @@ export class LoginComponent {
           Swal.fire({
             icon: 'success',
             title: 'Login successful',
-            text: `Welcome, ${this.formLogin.value.username}!`,
+            text: `Bienvenido, ${this.formLogin.value.username}!`,
           }).then(() => {
-            this.router.navigate(['/propiedades']);
+            if(roles ==='admin'){
+              this.router.navigate(['/dashboard']);
+
+            }else{
+              this.router.navigate(['/propiedades']);
+            }
           });
         } else {
           Swal.fire({
@@ -66,8 +71,53 @@ export class LoginComponent {
         });
       }
     );
-  }
+  } */
+  initSesion() {
+    this.showLoading = true;
 
+    const request: Login = {
+      username: this.formLogin.value.username,
+      password: this.formLogin.value.password
+    };
+    console.log(request)
+
+    this.authService.initSeccion(request).subscribe(
+      (user: User | any) => {
+        if (user !== null) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Login successful',
+            text: `Bienvenido, ${this.formLogin.value.username}!`,
+          }).then(() => {
+            const role = localStorage.getItem('roles');
+            if (role?.includes('admin')) { // Verificar si roles está definido antes de llamar a includes
+              this.router.navigate(['/dashboard']);
+              console.log('admin')
+            } else {
+              this.router.navigate(['/propiedades']);
+              console.log('empleados')
+            }
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Credenciales incorrectas',
+          });
+          this.showLoading = false;
+        }
+      },
+      (error: any) => {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Se produjo un error al iniciar sesión',
+        });
+      }
+    );
+
+  }
 
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;

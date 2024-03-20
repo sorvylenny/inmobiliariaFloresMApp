@@ -8,6 +8,7 @@ import { MaterialModule } from '../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InmuebleComponent } from './inmueble/inmueble.component';
 import { SharedModule } from '../shared/shared.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 
@@ -15,7 +16,8 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [
     InmuebleHomeComponent,
     InmuebleDetailsComponent,
-    InmuebleComponent
+    InmuebleComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,

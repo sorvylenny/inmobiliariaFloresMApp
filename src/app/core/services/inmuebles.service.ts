@@ -1,6 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { CityResponse } from 'src/app/interfaces/cityresponse';
+import { Dashboard } from 'src/app/interfaces/dashboard';
+import { DepartmentResponse } from 'src/app/interfaces/departmentresponse';
 import { Inmueble } from 'src/app/interfaces/inmueble';
 import { Owner } from 'src/app/interfaces/owner';
 import { environment } from 'src/environments/environment';
@@ -28,16 +31,6 @@ export class InmueblesService {
     return this.http.get<Inmueble[]>(url, { params });
   }
 
-  /* seachInmuebles(query: string): Observable<Inmueble[]>{
-    const url = `${this.baseUrl}search`;
-    const params = new HttpParams()
-    .set('title', query)
-    .set('department', query)
-    .set('city', query)
-    .set('price', query);
-    return this.http.get<Inmueble[]>(url, {params});
-  }
- */
   getInmuebleById(id: string): Observable<Inmueble> {
     const url = `${this.baseUrl}seemore/${id}`;
     return this.http.get<Inmueble>(url);
@@ -77,5 +70,29 @@ export class InmueblesService {
     const url = `${this.baseUrl}delete/${id}`;
     return this.http.delete<Inmueble>(url);
   }
+/* dashboardServices */
+  /* dashBoardDepartment():Observable<Dashboard[]>{
+    const url = `${this.baseUrl}departmentMoreRegistered`;
+    console.log(url)
+    return this.http.get<Dashboard[]>(url);
+  }
+
+  dashBoardCities():Observable<Dashboard[]>{
+    const url = `${this.baseUrl}cityMoreRegistered`;
+    console.log(url)
+    return this.http.get<Dashboard[]>(url);
+  } */
+  dashBoardDepartment(): Observable<DepartmentResponse> {
+    const url = `${this.baseUrl}departmentMoreRegistered`;
+    console.log(url)
+    return this.http.get<DepartmentResponse>(url);
+  }
+
+  dashBoardCities(): Observable<CityResponse> {
+    const url = `${this.baseUrl}cityMoreRegistered`;
+    console.log(url)
+    return this.http.get<CityResponse>(url);
+  }
 
 }
+

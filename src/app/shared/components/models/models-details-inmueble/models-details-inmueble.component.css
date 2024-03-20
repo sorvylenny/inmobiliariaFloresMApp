@@ -14,7 +14,6 @@ mat-card-title{
 }
 
 mat-card-content{
-  font-family: "Playfair Display", serif;
   font-weight: 300;
   font-size: 18px;
   text-align: justify;
@@ -27,7 +26,6 @@ ul{
 ul li{
   display: flex;
   font-size: 16px;
-  font-family: "Playfair Display", serif;
   font-weight: 300;
 }
 .detail-label {

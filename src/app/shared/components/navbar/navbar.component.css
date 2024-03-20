@@ -1,5 +1,5 @@
 .menu-span{
-  flex: 1 1 auto;
+  flex: 1 auto;
 }
 .menu-label{
   font-size: 20px;
@@ -15,10 +15,11 @@ h2{
   color: white;
   cursor: pointer;
 }
-.right-content {
+ .right-content {
   display: flex;
   align-items: center;
-  margin-left: 450px;
+  justify-content: space-between;
+  margin-left: 1650px;
 }
 mat-icon{
   color: white;
@@ -28,12 +29,7 @@ background-color: #949CDF;
 font-family: "Playfair Display", serif;
 font-weight: 600;
 }
-/* .pageInit{
-background-color:#F6ECF0;
-height: 80vh;
-}
- */
- .mat-sidenav-content {
+.mat-sidenav-content {
   height: 80vh;
   overflow-y: auto;
 }

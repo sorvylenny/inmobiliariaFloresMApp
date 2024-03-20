@@ -47,8 +47,7 @@ export class NavbarComponent {
 
     // Menús para empleado
     const empleadoMenus = [
-      { nombre: 'Dashboard', url: '/dashboard', icon: 'dashboard' },
-      { nombre: 'Inmueble', url: '/propiedades', icon: 'add' },
+      {}
     ];
 
     if (this.rolesUser.includes('admin')) {

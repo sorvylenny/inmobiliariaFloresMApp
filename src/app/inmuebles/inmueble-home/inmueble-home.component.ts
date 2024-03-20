@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Query, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
-import { Observable, map, startWith, tap } from 'rxjs';
+import { Observable, map, of, startWith, tap } from 'rxjs';
 import { DepartmentService } from 'src/app/core/services/department.service';
 import { InmueblesService } from 'src/app/core/services/inmuebles.service';
 import { City } from 'src/app/interfaces/city';
@@ -19,19 +19,15 @@ export class InmuebleHomeComponent {
   searchDepartmentControl = new FormControl();
   searchCityControl = new FormControl();
   searchPrice = new FormControl();
-
   filteredDepartments: Observable<Department[]> | undefined;
   filteredCities: Observable<City[]> | undefined;
 
   private filteredCitiesList: City[]=[];
-
   departments: Department[] = [];
   cities: City[] = [];
   propiety: Inmueble[]=[];
   selectedDepartment: Department | null = null;
   inmueblesEncontrados: boolean = false;
-
-
 
   constructor(private router: Router, private inmueblesServices: InmueblesService, private departmentService: DepartmentService) { }
 
@@ -59,34 +55,19 @@ export class InmuebleHomeComponent {
     this.allPropiety();
 
   }
-
-  /* search(): void {
-    const query = {
-      title: this.searchTitle.value,
-      department: this.searchDepartmentControl.value,
-      city: this.searchCityControl.value,
-      price: this.searchPrice.value
-    };
-
-    this.inmueblesServices.seachInmuebles(query).subscribe((inmuebles: Inmueble[]) => {
-      this.propiety = inmuebles;
-    });
-
-
-  } */
-
   search(): void {
     const priceValue = this.searchPrice.value;
   if (priceValue === -1) {
     this.searchPrice.setValue(null);
   }
 
-    const query = {
-      title: this.searchTitle.value,
-      department: this.searchDepartmentControl.value,
-      city: this.searchCityControl.value,
-      price: this.searchPrice.value
-    };
+  const query = {
+    title: this.searchTitle.value,
+    department: this.searchDepartmentControl.value ? this.searchDepartmentControl.value.name : null,
+    city: this.searchCityControl.value ? this.searchCityControl.value.name : null,
+    price: this.searchPrice.value
+  };
+  console.log(query);
 
 
     const allFieldsEmpty = Object.values(query).every(value => value === '');
@@ -98,6 +79,7 @@ export class InmuebleHomeComponent {
 
       this.inmueblesServices.seachInmuebles(query).subscribe((inmuebles: Inmueble[]) => {
         this.propiety = inmuebles;
+        console.log("inmuebles:", inmuebles)
         this.inmueblesEncontrados = inmuebles.length > 0 ? true : false;
       });
     }
@@ -106,49 +88,27 @@ export class InmuebleHomeComponent {
   allDepartment(){
     this.departmentService.getDepartments().subscribe(departments => {
       this.departments = departments;
-      this.search();
     });
   }
-  /* onDepartmentSelected(event: MatAutocompleteSelectedEvent) {
-    const selectedDepartment: Department = event.option.value;
-    if (selectedDepartment.id) {
-      this.allCity(selectedDepartment.id).subscribe(cities => {
-        this.filteredCitiesList = cities;
-      });
-    }
-  } */
   onDepartmentSelected(event: MatAutocompleteSelectedEvent): void {
     const selectedDepartment: Department = event.option.value;
     if (selectedDepartment && selectedDepartment.id) {
+      // Extraer el id y el nombre del departamento seleccionado
+      const { id, name } = selectedDepartment;
+      // Asignar el id y el nombre al FormControl searchDepartmentControl
+      this.searchDepartmentControl.patchValue({ id, name });
 
       this.allCity(selectedDepartment.id).subscribe(cities => {
-        this.filteredCitiesList = cities;
+        this.filteredCities = of(cities);
+        console.log(cities);
       });
-      this.searchDepartmentControl.setValue(selectedDepartment.name);
-        this.search();
+      this.search()
+
     }
-
-
-  }
-
-
-searchByDepartmentName(departmentName: string): void {
-
-    this.searchDepartmentControl.setValue(departmentName, { emitEvent: true});
-
-
-    this.search();
-  }
-
-
-
-  onDepartmentKeyUp(event: any) {
-    const selectedDepartment: Department = event.option.value.toLowerCase();
-  this.searchDepartmentControl.setValue(selectedDepartment);
-  this.search();
   }
     private _filterDepartments(value: any): Department[] {
       const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
+      console.log('filterDepatrt', this.departments)
       return this.departments.filter(department => department.name.toLowerCase().includes(filterValue));
     }
     displayFnDepartments(department: Department): string {
@@ -159,15 +119,11 @@ searchByDepartmentName(departmentName: string): void {
         return this.departmentService.getCitiesByDepartment(departmentId);
       }
 
-  private _filteredCities(value: any): City[] {
-    if (typeof value !== 'string') {
-      return [];
-    }
-    const filterValue = value.toLowerCase();
-    this.search();
-    return this.filteredCitiesList.filter(city => city.name.toLowerCase().includes(filterValue));
-
-  }
+   private _filteredCities(value: any): City[] {
+     const filterValue = typeof value === 'string' ? value.toLowerCase() :'';
+     console.log('filterCity', this.cities)
+     return this.cities.filter(city => city.name.toLowerCase().includes(filterValue));
+   }
   displayFnCities(city: City): string {
     return city && city.name ? city.name : '';
   }/*

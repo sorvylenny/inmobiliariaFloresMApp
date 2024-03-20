@@ -1,0 +1,46 @@
+.title{
+  margin: 0px 0px 0px 40px;
+}
+
+.card-Dasboard{
+  margin: 20px 40px 40px 40px;
+  background-color:#F6ECF0;
+}
+.card_info{
+  width: 70%;
+  text-align: center;
+}
+mat-icon{
+  font-size: 35px !important;
+  height: 50px !important;
+  width: 50px !important;
+}
+.Grafico{
+  margin-top: 40px;
+}
+.div_grafico{
+  width: 100%;
+  height: 400px;
+
+}
+@media screen and (min-width: 375px) and (max-width: 767px) {
+  .title {
+    margin: 0 0 0 20px;
+    font-size: 20px;
+  }
+
+  .card-Dasboard {
+    margin: 15px;
+  }
+  .card_info{
+      width: 60%;
+
+  }
+  mat-icon{
+      font-size: 24px !important;
+      height: 24px !important;
+      width: 24px !important;
+      margin-left: 10px;
+  }
+
+}
