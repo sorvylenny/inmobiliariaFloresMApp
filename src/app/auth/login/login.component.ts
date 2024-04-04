@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { StateService } from 'src/app/core/services/state.service';
 import { Login } from 'src/app/interfaces/login';
 import { User } from 'src/app/interfaces/user';
 import { AlertService } from 'src/app/shared/alert.service';
@@ -17,12 +18,14 @@ export class LoginComponent {
   hidePassword: boolean = true;
   showLoading: boolean = false;
   users: User[]=[]
+  loginForm: any;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private stateService:StateService
   ) {
     this.formLogin = this.fb.group({
       username: ["", Validators.required],
@@ -46,13 +49,15 @@ export class LoginComponent {
             title: 'Login successful',
             text: `Bienvenido, ${this.formLogin.value.username}!`,
           }).then(() => {
-            if(roles ==='admin'){
+          const role = localStorage.getItem('roles');
+            this.stateService
+            if (role?.includes('admin')) { // Verificar si roles está definido antes de llamar a includes
               this.router.navigate(['/dashboard']);
-
-            }else{
+              console.log('admin')
+            } else {
               this.router.navigate(['/propiedades']);
+              console.log('empleados')
             }
-          });
         } else {
           Swal.fire({
             icon: 'error',
@@ -79,45 +84,45 @@ export class LoginComponent {
       username: this.formLogin.value.username,
       password: this.formLogin.value.password
     };
-    console.log(request)
+    console.log(request);
 
     this.authService.initSeccion(request).subscribe(
-      (user: User | any) => {
-        if (user !== null) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Login successful',
-            text: `Bienvenido, ${this.formLogin.value.username}!`,
-          }).then(() => {
-            const role = localStorage.getItem('roles');
-            if (role?.includes('admin')) { // Verificar si roles está definido antes de llamar a includes
-              this.router.navigate(['/dashboard']);
-              console.log('admin')
-            } else {
-              this.router.navigate(['/propiedades']);
-              console.log('empleados')
-            }
-          });
+      success => {
+        if (success) {
+          const role = localStorage.getItem('roles');
+          if (role?.includes('admin')) { // Verificar si roles está definido antes de llamar a includes
+            this.router.navigate(['/dashboard']);
+            console.log('admin');
+            this.stateService.setIsLoggedIn(true);
+            const username = this.formLogin.value.username; // Obtener el nombre de usuario
+            Swal.fire({
+              icon: 'success',
+              title: 'Notificación',
+              text: `Bienvenido ${username}`, // Mostrar el nombre de usuario en el mensaje de bienvenida
+            });
+            this.loginForm.reset();
+          } else {
+            this.router.navigate(['/propiedades']);
+            console.log('empleados');
+          }
         } else {
+          this.showLoading = false;
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Credenciales incorrectas',
+            text: `Usuario y/o contraseña inválida.`,
           });
-          this.showLoading = false;
         }
-      },
-      (error: any) => {
-        console.error(error);
+      }, error => {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Se produjo un error al iniciar sesión',
+          text: `${error}`,
         });
       }
     );
-
   }
+
 
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;

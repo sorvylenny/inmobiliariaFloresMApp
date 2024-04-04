@@ -35,6 +35,9 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
+        <div class="button-card">
+          <button mat-raised-button class="full-new custom-button" (click)="clear()">Borrar</button>
+        </div>
   </mat-card-content>
 </mat-card>
 
@@ -44,7 +47,7 @@
     <div  *ngFor="let estate of propiety">
     <mat-card class="card">
         <div class="card__img">
-          <!--  <app-smallmap [longitude]="estate.longitude" [latitude]="estate.latitude" class="map-container"></app-smallmap> -->
+           <!-- <app-smallmap [longitude]="estate.longitude" [latitude]="estate.latitude" class="map-container"></app-smallmap> -->
         </div>
         <div class="card__descr-wrapper">
           <p class="card__title">

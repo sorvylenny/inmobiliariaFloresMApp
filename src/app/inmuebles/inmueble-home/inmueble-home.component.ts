@@ -1,8 +1,8 @@
-import { Component, Query, ViewChild } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
-import { Observable, map, of, startWith, tap } from 'rxjs';
+import { Observable, map, of, startWith } from 'rxjs';
 import { DepartmentService } from 'src/app/core/services/department.service';
 import { InmueblesService } from 'src/app/core/services/inmuebles.service';
 import { City } from 'src/app/interfaces/city';
@@ -140,5 +140,12 @@ export class InmuebleHomeComponent {
   propietyDetails(id: string){
     this.router.navigate(['/inmueble', id]);
 
+  }
+  clear() {
+    this.searchTitle.setValue('');
+    this.searchDepartmentControl.setValue('');
+    this.searchCityControl.setValue('');
+    this.searchPrice.setValue(null);
+    this.allPropiety();
   }
 }

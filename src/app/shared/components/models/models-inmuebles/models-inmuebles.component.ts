@@ -1,7 +1,7 @@
 import { Component, Inject } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { Observable, filter, map, of, startWith, switchMap } from "rxjs";
+import { Observable, map, of, startWith } from "rxjs";
 import { InmueblesService } from "src/app/core/services/inmuebles.service";
 import { Inmueble } from "src/app/interfaces/inmueble";
 import { Owner } from "src/app/interfaces/owner";

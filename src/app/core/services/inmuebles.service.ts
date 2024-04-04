@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { CityResponse } from 'src/app/interfaces/cityresponse';
-import { Dashboard } from 'src/app/interfaces/dashboard';
 import { DepartmentResponse } from 'src/app/interfaces/departmentresponse';
 import { Inmueble } from 'src/app/interfaces/inmueble';
 import { Owner } from 'src/app/interfaces/owner';

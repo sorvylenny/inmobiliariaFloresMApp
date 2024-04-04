@@ -37,3 +37,21 @@
     background-color: #949CDF;
     color: white;
   }
+  @media (min-width: 375px) and (max-width: 767px) {
+    .container {
+
+        flex-direction: column;
+    }
+
+    .cardLogin {
+        width: 90%;
+        margin: 1em auto;
+        max-height: 500px;
+    }
+
+    .header {
+        font-size: 18px;
+    }
+
+
+}

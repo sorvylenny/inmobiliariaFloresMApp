@@ -4,12 +4,14 @@ import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { Login } from 'src/app/interfaces/login';
 import { User } from 'src/app/interfaces/user';
 import { environment } from 'src/environments/environment';
+import { StateService } from './state.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isLoggedIn: boolean = false;
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
   private baseUrl:string= environment.baseUrlUser;
   private authToken!: string;
   private logoutTimer: any;
@@ -18,10 +20,19 @@ export class AuthService {
     this.authToken = token;
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private stateService:StateService) {
     this.getLoggedInUser();
    }
+   private isLoggedIn(): boolean {
+    // Implementa tu lógica para verificar si el usuario está autenticado
+    // Puedes acceder a localStorage aquí
+    return localStorage.getItem('isLoggedIn') === 'true';
+  }
 
+  setLoggedIn(value: boolean): void {
+    // Puedes realizar cualquier lógica adicional aquí antes de actualizar el estado
+    this.isLoggedInSubject.next(value);
+  }
    initSeccion(required: any): Observable<boolean> {
     const url = `${this.baseUrl}login`;
     return this.http.post<User>(url, required).pipe(
@@ -33,6 +44,7 @@ export class AuthService {
         localStorage.setItem('roles', JSON.stringify(user.roles)); // Asume que roles es un array
         this.userSubject.next(user); // Actualiza el BehaviorSubject
         this.initLogoutTimer();
+        this.stateService.setIsLoggedIn(true);
         return true;
       }),
       catchError(err => {
@@ -42,12 +54,14 @@ export class AuthService {
     );
   }
 
+
   private getLoggedInUser(): void {
     const username = localStorage.getItem('username');
     const roles = localStorage.getItem('roles');
     if (username && roles) {
       const user = { username, roles: JSON.parse(roles) };
       this.userSubject.next(user);
+      this.stateService.setIsLoggedIn(true);
     }
   }
 
