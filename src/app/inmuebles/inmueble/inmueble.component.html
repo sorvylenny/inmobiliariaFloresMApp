@@ -65,7 +65,7 @@
                         <button mat-icon-button class="custom-primary-icon small-button" (click)="openDetallesInmuebleModal(element)">
                             <mat-icon mat-list-icon>search</mat-icon>
                         </button>
-                        <button mat-icon-button *ngIf="!isAdmin" class="custom-primary-icon small-button" (click)="deleteInmueble(element)">
+                        <button mat-icon-button *ngIf="isAdmin" class="custom-primary-icon small-button" (click)="deleteInmueble(element)">
                             <mat-icon mat-list-icon>delete</mat-icon>
                         </button>
                     </td>

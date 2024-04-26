@@ -34,7 +34,7 @@ export class InmuebleComponent {
   getProperties() {
     this.inmuebleService.allInmuebles().subscribe({
       next: (data: Inmueble[]) => {
-        // Verificar si se recibió una respuesta válida
+        // Verifica si se recibió una respuesta válida
         if (data && data.length > 0) {
           this.dataListProperty.data = data;
         } else {
@@ -50,9 +50,7 @@ export class InmuebleComponent {
 
   ngOnInit(): void {
     this.getProperties();
-    /* const userRole = localStorage.getItem('roles');
-    this.isAdmin = userRole === 'admin';
-    this.cdr.detectChanges(); */
+    this.checkUserRole();
   }
   ngAfterViewInit(): void {
     this.dataListProperty.paginator = this.paginatorTable;
@@ -61,7 +59,6 @@ export class InmuebleComponent {
   appSearchTable(event: Event){
     const searchValue = (event.target as HTMLInputElement).value;
     this.dataListProperty.filter = searchValue.trim().toLocaleLowerCase();
-    console.log(this.dataListProperty);
   }
 
   newPropiety(){
@@ -116,6 +113,10 @@ export class InmuebleComponent {
     }).afterClosed().subscribe(res =>{
       if(res ==="true") this.getProperties();
     });
+  }
+  checkUserRole() {
+    const roles = localStorage.getItem('roles');
+    this.isAdmin = typeof roles === 'string' && roles.includes('admin');
   }
 
 
